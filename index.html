@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Individualismo Aberto: Fundamentos Neurocientíficos, Quânticos e Ontológicos</title>
+
+  <!-- Essential CDN Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: 'hsl(210, 75%, 95%)',
+              100: 'hsl(210, 75%, 85%)',
+              200: 'hsl(210, 75%, 75%)',
+              300: 'hsl(210, 75%, 65%)',
+              400: 'hsl(210, 75%, 55%)',
+              500: 'hsl(210, 75%, 40%)',
+              600: 'hsl(210, 75%, 35%)',
+              700: 'hsl(210, 75%, 25%)',
+              800: 'hsl(210, 75%, 15%)',
+              900: 'hsl(210, 75%, 10%)'
+            },
+            accent: {
+              50: 'hsl(240, 65%, 95%)',
+              100: 'hsl(240, 65%, 85%)',
+              200: 'hsl(240, 65%, 75%)',
+              300: 'hsl(240, 65%, 65%)',
+              400: 'hsl(240, 65%, 60%)',
+              500: 'hsl(240, 65%, 55%)',
+              600: 'hsl(240, 65%, 50%)',
+              700: 'hsl(240, 65%, 40%)',
+              800: 'hsl(240, 65%, 30%)',
+              900: 'hsl(240, 65%, 20%)'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+
+  <!-- Preline UI Components -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.js"></script>
+
+  <!-- Micro-interactions & Custom Styles -->
+  <style>
+    html { scroll-behavior: smooth; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    .btn-interactive {
+      transition: all 0.2s ease-out;
+    }
+    
+    .btn-interactive:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-interactive:active {
+      transform: scale(0.95);
+    }
+
+    .card-interactive {
+      transition: all 0.3s ease-out;
+      border: 1px solid transparent;
+      --border-lightness: 40%;
+    }
+
+    .dark .card-interactive {
+      --border-lightness: 60%;
+    }
+
+    .card-interactive:hover {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      filter: brightness(0.98);
+    }
+    
+    /* Primary colored cards */
+    .card-interactive[class*="primary"]:hover,
+    .card-interactive[class*="white"]:hover,
+    .card-interactive[class*="gray-"]:hover {
+      border-color: hsl(210, 75%, var(--border-lightness));
+    }
+    
+    /* Accent colored cards */
+    .card-interactive[class*="accent"]:hover {
+      border-color: hsl(240, 65%, var(--border-lightness));
+    }
+
+    .dark .card-interactive:hover {
+      filter: brightness(1.05);
+    }
+
+    /* Citation Superscript Style */
+    sup.citation {
+      font-size: 0.75em;
+      line-height: 1;
+      position: relative;
+      top: -0.5em;
+      vertical-align: top;
+    }
+
+    sup.citation a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px dotted currentColor;
+      transition: all 0.2s ease;
+    }
+
+    sup.citation a:hover {
+      color: #3b82f6;
+      border-bottom: 1px solid #3b82f6;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+  <!-- Progress bar -->
+  <div class="fixed top-0 left-0 h-1 bg-primary-500 dark:bg-primary-400 z-[60] transition-all duration-300 ease-out" id="progressBar"></div>
+
+  <!-- Floating Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border-b border-primary-500/20 dark:border-primary-600/20 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-bold text-primary-700 dark:text-primary-300">Individualismo Aberto</h1>
+        
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="#introducao" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Introdução</a>
+          <a href="#neurociencia" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Neurociência</a>
+          <a href="#quantica" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Quântica</a>
+          <a href="#ontologia" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Ontologia</a>
+          <a href="#intersubjetividade" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Intersubjetividade</a>
+          <a href="#conclusao" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Conclusão</a>
+        </nav>
+
+        <button onclick="toggleDarkMode()" class="btn-interactive p-2 rounded-lg bg-primary-100 dark:bg-primary-800 text-primary-600 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-700 transition-all">
+          <i data-lucide="sun" id="sunIcon" class="w-5 h-5"></i>
+          <i data-lucide="moon" id="moonIcon" class="w-5 h-5" style="display:none;"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="min-h-screen pt-16">
+    <!-- Hero Section -->
+    <section id="introducao" class="py-20 bg-primary-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6 text-primary-700 dark:text-primary-300">
+          Individualismo Aberto: Uma Tese Metafísica sobre a Singularidade Consciente
+        </h2>
+        <p class="text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
+          A tese do Individualismo Aberto propõe que existe um único sujeito numericamente idêntico em toda a existência, desafiando categoricamente a intuição comum de múltiplas mentes separadas. Esta investigação acadêmica busca fundamentar rigorosamente esta posição mediante integração com modelos contemporâneos das neurociências, física quântica e ontologia filosófica.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4">
+            <p class="text-gray-700 dark:text-gray-300">
+              A demonstração de que a identidade pessoal não é fechada aponta coletivamente em uma de duas novas direções: ou não há entidades continuamente existentes, ou há apenas um sujeito universal. O Individualismo Aberto defende esta última opção, afirmando que todos os seres conscientes compartilham uma única identidade fundamental.<sup class="citation"><a href="https://www.researchgate.net/publication/321595249_I_Am_You_The_Metaphysical_Foundations_for_Global_Ethics" target="_blank">91</a></sup>
+            </p>
+            
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed">
+                <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Encontramos uma singularidade numérica: existe apenas um sujeito, um eu, em toda a existência.<sup class="citation"><a href="https://www.researchgate.net/publication/321595249_I_Am_You_The_Metaphysical_Foundations_for_Global_Ethics" target="_blank">91</a></sup>
+              </p>
+            </div>
+          </div>
+          
+          <img
+            src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+            alt="Ilustração conceitual mostrando conexões neurais e consciência"
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+        </div>
+
+        <div class="mt-8 grid md:grid-cols-3 gap-6">
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="brain" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-primary-700 dark:text-primary-300">
+                Neurociência<sup class="citation"><a href="https://www.researchgate.net/publication/321595249_I_Am_You_The_Metaphysical_Foundations_for_Global_Ethics" target="_blank">91</a></sup>
+              </h3>
+            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              Modelos contemporâneos da consciência revelam mecanismos neurais que suportam a unidade experiencial subjacente.
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="atom" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300">
+                Quântica<sup class="citation"><a href="https://plato.stanford.edu/entries/qm-relational/" target="_blank">65</a></sup>
+              </h3>
+            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              Interpretações quânticas sugerem uma ontologia relacional onde a consciência emerge de interações fundamentais.
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="layers" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-primary-700 dark:text-primary-300">
+                Ontologia<sup class="citation"><a href="https://link.springer.com/content/pdf/10.1007/978-1-4020-6204-9.pdf" target="_blank">121</a></sup>
+              </h3>
+            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              Formalismos ontológicos fornecem estruturas para compreender a identidade numérica como fundamento metafísico.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Neurociência Section -->
+    <section id="neurociencia" class="py-20 bg-white/80 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Fundamentos Neurocientíficos da Unidade Consciente
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="space-y-6">
+            <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300">
+              Teoria da Informação Integrada (IIT)<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4014402/" target="_blank">6</a></sup>
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300">
+              A Teoria da Informação Integrada (IIT) 3.0 e 4.0 propõe que a consciência é uma propriedade intrínseca de sistemas físicos que possuem um grau suficiente de integração informacional. O parâmetro Φ quantifica essa integração, sugerindo que a unidade experiencial emerge de processos causais irreducíveis dentro de um sistema físico.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300">
+              A versão 4.0 da IIT enfatiza uma abordagem de "consciência primeiro", onde a experiência é considerada ontologicamente primária em vez de um epifenômeno do cérebro. Isso implica que a consciência não é gerada pelo cérebro, mas sim que o cérebro é uma manifestação de um substrato consciente mais fundamental.<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10581496/" target="_blank">23</a></sup>
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 rounded-xl shadow-md bg-primary-50/50 dark:bg-primary-900/20 h-80">
+            <canvas id="iitChart"></canvas>
+          </div>
+        </div>
+
+        <div class="mb-12">
+          <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed">
+              <i data-lucide="alert-triangle" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              A IIT 4.0 rejeita explicitamente a visão mainstream de que a consciência é gerada pelo cérebro, propondo em vez disso que a consciência é ontologicamente primária enquanto o cérebro é uma manifestação de um substrato consciente mais fundamental.<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10606349/" target="_blank">42</a></sup>
+            </p>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-neuro-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="activity" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Modelo do Self Fenomenológico (PSM)</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-neuro-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-neuro-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  Thomas Metzinger propõe que o self fenomenológico (PSM) é um modelo neurônico dinâmico que gera a experiência subjetiva de unidade e continuidade. Este modelo não requer um sujeito persistente, mas sim processos neurais que simulam coerência e identidade através de representações multimodais de relações organismo-objeto.<sup class="citation"><a href="https://pubmed.ncbi.nlm.nih.gov/32146872/" target="_blank">44</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  O PSM opera como um modelo empírico que pode explicar a experiência de unidade consciente sem pressupor uma entidade substancial subjacente. Ele sugere que a sensação de um self unitário é uma construção neurônica que emerge de processos de integração sensoriomotora e preditiva.<sup class="citation"><a href="https://www.researchgate.net/publication/312624234_Empirical_perspectives_from_the_selfmodel_theory_of_subjectivity_A_brief_summary_with_examples" target="_blank">98</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-neuro-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="git-branch" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Síndrome do Cérebro Dividido</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-neuro-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-neuro-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  A síndrome do cérebro dividido levanta questões fundamentais sobre a unidade da consciência. Quando o corpo caloso é seccionado cirurgicamente, os pacientes podem exibir comportamentos que sugerem a presença de múltiplas experiências conscientes, cada uma associada a um hemisfério cerebral.<sup class="citation"><a href="https://www.researchgate.net/publication/259829790_The_Unity_of_Consciousness_and_the_Split-Brain_Syndrome" target="_blank">8</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  Estudos empíricos com pacientes de cérebro dividido revelam que, apesar da divisão anatômica, muitos mantêm uma sensação de unidade experiencial coerente. Isso sugere que a integração neural pode ocorrer através de vias alternativas além do corpo caloso, desafiando interpretações simples da fragmentação da consciência.<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7305066/" target="_blank">59</a></sup>
+                </p>
+                <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+                  <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed">
+                    <i data-lucide="circle-check" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                    Segundo a IIT, a síndrome do cérebro dividido resulta em uma medida de integração maior para cada hemisfério do que para os dois hemisférios juntos, indicando que a divisão anatômica não necessariamente implica divisão funcional completa da consciência.<sup class="citation"><a href="https://www.cambridge.org/core/journals/behavioral-and-brain-sciences/article/integrated-information-theory-of-consciousness-a-case-of-mistaken-identity/54A2FF12685631EC90DFCC4AA24639FB" target="_blank">90</a></sup>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-neuro-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="network" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Processamento Preditivo</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-neuro-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-neuro-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  A teoria do Processamento Preditivo propõe que o cérebro constantemente gera modelos preditivos do mundo e compara essas previsões com entradas sensoriais. A minimização do erro preditivo é fundamental para a manutenção da coesão experiencial e da sensação de unidade.<sup class="citation"><a href="https://www.sciencedirect.com/science/article/pii/S0149763425002970" target="_blank">5</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  A neuroermenêutica bayesiana de Frith propõe um framework bayesiano para entender a cognição social e a intersubjetividade. O Processamento Preditivo retém a capacidade de integrar informações sensoriais e cognitivas para gerar uma experiência unificada e significativa.<sup class="citation"><a href="https://www.academia.edu/30181129/Gallagher_S_and_Allen_M_2016_Active_inference_enactivism_and_the_hermeneutics_of_social_cognition" target="_blank">72</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Física Quântica Section -->
+    <section id="quantica" class="py-20 bg-accent-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-accent-700 dark:text-accent-300">
+          Implicações Quânticas para a Ontologia Consciente
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+          <div class="space-y-6">
+            <h3 class="text-xl font-semibold text-accent-700 dark:text-accent-300">
+              Mecânica Quântica Relacional (RQM)<sup class="citation"><a href="https://plato.stanford.edu/entries/qm-relational/" target="_blank">65</a></sup>
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300">
+              A Mecânica Quântica Relacional propõe que estados quânticos são sempre definidos em relação a outros sistemas físicos, eliminando a necessidade de observadores clássicos. Esta interpretação coloca relações e informação — não objetos isolados — como fundação da realidade física.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300">
+              Na RQM, qualquer sistema físico pode servir como 'observador', e medições são eventos relacionais que criam correlações entre sistemas. Isso sugere uma ontologia onde a consciência emerge naturalmente de interações fundamentais, sem pressupor entidades substanciais.<sup class="citation"><a href="https://www.researchgate.net/publication/397076849_On_perspectivism_and_relationalism_of_Relational_Quantum_Mechanics" target="_blank">105</a></sup>
+            </p>
+          </div>
+
+          <img
+            src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+            alt="Diagrama científico ilustrando a Mecânica Quântica Relacional"
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+        </div>
+
+        <div class="mb-12">
+          <div class="pl-4 pr-3 py-3 border-l-4 border-accent-500 bg-accent-50/40 dark:bg-accent-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-accent-900 dark:text-accent-100 leading-relaxed">
+              <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              A RQM é a interpretação mais recente entre as interpretações de mecânica quântica amplamente discutidas hoje, oferecendo uma ontologia relacional que elimina a necessidade de observadores clássicos.<sup class="citation"><a href="https://plato.stanford.edu/entries/qm-relational/" target="_blank">65</a></sup>
+            </p>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-accent-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-quantica-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="zap" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Campos Eletromagnéticos e Qualia</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-quantica-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-quantica-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  Teorias de campos eletromagnéticos (EM) propõem que qualia emergem de padrões específicos de atividade EM no cérebro. Essas teorias sugerem que a consciência não é um epifenômeno do processamento neural, mas sim uma propriedade fundamental associada a campos EM dinâmicos.<sup class="citation"><a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1015967/full" target="_blank">54</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  Os campos EM podem fornecer o substrato necessário para a integração neural em larga escala, permitindo que informações de diferentes regiões cerebrais sejam combinadas em uma experiência unificada. Isso oferece uma ponte entre níveis microscópicos de atividade neural e a unidade experiencial.<sup class="citation"><a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1015967/full" target="_blank">54</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-accent-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-quantica-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="compass" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">QBism e Perspectivismo</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-quantica-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-quantica-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  O QBism trata o estado quântico como um grau puramente subjetivo de crença — uma ferramenta para gerenciar expectativas pessoais — evitando atribuir estrutura objetiva ao mundo. Isso alinha-se com uma visão onde a consciência é fundamental e não reduzível a processos materiais.<sup class="citation"><a href="https://plato.stanford.edu/entries/quantum-bayesian/" target="_blank">34</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  A interpretação QBist evita pressupor uma realidade objetiva independente de observadores, sugerindo que a experiência consciente é a base primordial da descrição física. Isso implica que a unidade experiencial é uma característica fundamental do universo, não um acidente evolutivo.<sup class="citation"><a href="https://link.springer.com/article/10.1007/s10701-025-00887-6" target="_blank">33</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-accent-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-quantica-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="infinity" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Panexperiencialismo Materialista</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-quantica-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-quantica-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  O panexperiencialismo materialista é um novo framework materialístico originário do domínio espectral de quanta energia-matéria que transcende a barreira da matéria inanimada. Ele propõe que a experiência é uma propriedade fundamental da matéria em todos os níveis.<sup class="citation"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0065327620300198" target="_blank">49</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  Esta abordagem sugere que a consciência não surge de processos complexos, mas é uma característica intrínseca da realidade física. A unidade experiencial emerge naturalmente de interações quânticas que integram informações em múltiplas escalas espaciais e temporais.<sup class="citation"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0065327620300198" target="_blank">49</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ontologia Section -->
+    <section id="ontologia" class="py-20 bg-white/80 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Estruturas Ontológicas e Identidade Numérica
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="space-y-6">
+            <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300">
+              Ontologia Formal<sup class="citation"><a href="https://link.springer.com/content/pdf/10.1007/978-1-4020-6204-9.pdf" target="_blank">121</a></sup>
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300">
+              A ontologia formal fornece estruturas lógicas para compreender categorias fundamentais de existência, incluindo identidade numérica, persistência e relação. Ela permite formalizar conceitos metafísicos de maneira rigorosa e testável.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300">
+              Desde conferências internacionais sobre ontologia formal em tecnologia da informação, tem havido um esforço crescente para desenvolver frameworks que capturem a natureza fundamental da identidade e da unidade experiencial em termos formais precisos.<sup class="citation"><a href="https://link.springer.com/content/pdf/10.1007/978-1-4020-6204-9.pdf" target="_blank">121</a></sup>
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 rounded-xl shadow-md bg-accent-50/50 dark:bg-accent-900/20 h-80">
+            <canvas id="ontologyChart"></canvas>
+          </div>
+        </div>
+
+        <div class="mb-12">
+          <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed">
+              <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              A ontologia formal em tecnologia da informação busca capturar categorias fundamentais de existência e suas relações, fornecendo bases para compreender identidade numérica e unidade experiencial.
+            </p>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-onto-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="database" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Dual-Aspect Monism (IDAM)</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-onto-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-onto-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  O framework IDAM (Dual-Aspect Monism) propõe cinco componentes: monismo dual-aspecto, modo dual, graus variáveis de manifestação de aspectos dependendo dos níveis das entidades e a unidade fundamental da realidade.<sup class="citation"><a href="https://www.researchgate.net/publication/282854304_Biological_Naturalism_in_Inseparable_Dual-Aspect_Monism_and_Conscious_Robots" target="_blank">30</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  Este framework sugere que mente e matéria são dois aspectos de uma realidade subjacente unificada. A identidade numérica emerge naturalmente desta unidade fundamental, onde todas as experiências conscientes compartilham uma base ontológica comum.<sup class="citation"><a href="https://www.researchgate.net/publication/282854304_Biological_Naturalism_in_Inseparable_Dual-Aspect_Monism_and_Conscious_Robots" target="_blank">30</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-onto-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="git-merge" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Emergência Causal</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-onto-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-onto-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  A emergência causal é encontrada em múltiplos domínios, incluindo redes neuronais, circuitos genéticos e sistemas ecológicos. Este achado fornece base matemática sólida para detectar escalas naturais de interação causal em sistemas complexos.<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12386051/" target="_blank">140</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  A emergência causal demonstra que padrões de alto nível podem surgir de interações locais sem que sejam reduzíveis a essas partes. Isso apoia a ideia de que a unidade experiencial pode emergir de processos neurais sem pressupor uma entidade substancial subjacente.<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12386051/" target="_blank">140</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-onto-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="box" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Materialismo Inclusivo</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-onto-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-onto-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  O materialismo inclusivo argumenta que interpretações materialísticas da mecânica quântica são compatíveis com seu formalismo matemático, enquanto ainda reconhecem a natureza fundamental da consciência. Isso sugere que a matéria e a mente não são categorias opostas, mas aspectos complementares da realidade.<sup class="citation"><a href="https://www.mdpi.com/2409-9287/9/5/140" target="_blank">36</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  Esta perspectiva apoia a tese do Individualismo Aberto ao sugerir que a identidade numérica emerge naturalmente de uma base material que já incorpora propriedades conscientes em todos os níveis.<sup class="citation"><a href="https://www.mdpi.com/2409-9287/9/5/140" target="_blank">36</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Intersubjetividade Section -->
+    <section id="intersubjetividade" class="py-20 bg-primary-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Cognição Social, Empatia e Limites Epistêmicos
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-center mb-12">
+          <img
+            src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+            alt="Ilustração conceitual mostrando conexões sociais e empatia"
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+
+          <div class="space-y-6">
+            <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300">
+              Hipótese da Empatia Graduada<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7732462/" target="_blank">19</a></sup>
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300">
+              A hipótese da empatia graduada postula que prestar atenção às expressões dos outros sempre facilita a empatia. Isso sugere que a cognição social é um processo contínuo de sintonização intersubjetiva, onde a experiência compartilhada emerge naturalmente de interações atentas.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300">
+              A empatia compreensiva é descrita como compreendendo elementos epistêmicos, afetivos e motivacionais. A empatia epistêmica envolve compreender o conteúdo cognitivo das experiências dos outros, enquanto a empatia afetiva envolve compartilhar estados emocionais.<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7874132/" target="_blank">58</a></sup>
+            </p>
+          </div>
+        </div>
+
+        <div class="mb-12">
+          <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed">
+              <i data-lucide="alert-triangle" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              O entendimento empático corre o risco de erro, levando a diagnósticos errôneos, tratamentos inadequados e uma compreensão geral equivocada da experiência do outro.<sup class="citation"><a href="https://www.researchgate.net/publication/373096326_The_epistemic_harms_of_empathy_in_phenomenological_psychopathology" target="_blank">56</a></sup>
+            </p>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-inter-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="users" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Neurofenomenologia</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-inter-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-inter-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  A neurofenomenologia é um guia prático para integrar métodos neurocientíficos e fenomenológicos na investigação da consciência. O programa de pesquisa neurofenomenológica (NRP) de Varela aspira construir uma ponte entre, e integrar, ciência objetiva e experiência subjetiva.<sup class="citation"><a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.01680/full" target="_blank">20</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  Desde que Varela introduziu o termo 'neurofenomenologia' em 1996, a assimilação de formas de evidência neurocientífica e fenomenológica tem sido um objetivo central para compreender a natureza da experiência consciente.<sup class="citation"><a href="https://www.researchgate.net/publication/374287363_Evidence_in_Neurophenomenology" target="_blank">21</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  A neurofenomenologia busca analisar, em níveis antropológicos, fenomenológicos e epistemológicos, como as características fundamentais da experiência consciente emergem de processos neurais.<sup class="citation"><a href="https://link.springer.com/article/10.1007/s10516-021-09590-3" target="_blank">17</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-inter-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="brain-circuit" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Evolução da Cognição Social</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-inter-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-inter-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  Os humanos possuem muitas habilidades cognitivas não presentes em seus parentes primatas mais próximos. A hipótese da inteligência cultural argumenta que isso é principalmente devido a adaptações especializadas para aprendizado social.<sup class="citation"><a href="https://www.researchgate.net/publication/6017734_Humans_Have_Evolved_Specialized_Skills_of_Social_Cognition_The_Cultural_Intelligence_Hypothesis" target="_blank">27</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  A abordagem comparativa de desenvolvimento examina como as habilidades cognitivas sociais humanas diferem de outros primatas. A cognição social dos primatas envolve habilidades complexas de inferência social e comunicação.<sup class="citation"><a href="https://journals.sagepub.com/doi/10.1177/147470491401200211" target="_blank">28</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  Adaptações específicas para cognição social são conhecidas no cérebro dos primatas, e grande parte da evolução do cérebro humano pode ser atribuída à seleção para habilidades sociais avançadas.<sup class="citation"><a href="https://www.cambridge.org/core/books/cambridge-handbook-of-intelligence/evolution-of-intelligence/E64BA8EB70C7CE6FFA76F099DCB62F3A" target="_blank">29</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-inter-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="network" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Trauma Epistêmico</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-inter-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-inter-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  O trauma epistêmico refere-se a distúrbios na arquitetura dos sistemas familiares que afetam o processamento preditivo e a intersubjetividade. Esse tipo de trauma pode interferir na capacidade de integrar informações sensoriais e cognitivas de maneira coerente.<sup class="citation"><a href="https://www.researchgate.net/publication/397899026_Epistemic_trauma_and_the_architecture_of_family_systems_Clinical_recognition_differential_diagnosis_and_developmental_repair" target="_blank">71</a></sup>
+                </p>
+                <p class="text-gray-700 dark:text-gray-300">
+                  A dissonância traumática pode facilitar a maturação adaptativa desses sistemas neurais, mas também pode comprometer a confiança intersubjetiva e a capacidade de empatia.<sup class="citation"><a href="https://www.researchgate.net/publication/397899026_Epistemic_trauma_and_the_architecture_of_family_systems_Clinical_recognition_differential_diagnosis_and_developmental_repair" target="_blank">71</a></sup>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusão Section -->
+    <section id="conclusao" class="py-20 bg-white/80 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Conclusão: Uma Visão Unificada da Realidade
+        </h2>
+
+        <div class="space-y-6">
+          <p class="text-lg text-gray-700 dark:text-gray-300">
+            A tese do Individualismo Aberto oferece uma visão metafísica radical e profundamente coerente da realidade: existe apenas um sujeito, um eu, em toda a existência. Esta singularidade numérica transcende a intuição comum de múltiplas mentes separadas e encontra apoio robusto em múltiplas disciplinas científicas contemporâneas.<sup class="citation"><a href="https://www.researchgate.net/publication/321595249_I_Am_You_The_Metaphysical_Foundations_for_Global_Ethics" target="_blank">91</a></sup>
+          </p>
+
+          <div class="grid md:grid-cols-3 gap-6 my-12">
+            <div class="card-interactive p-6 bg-primary-50/50 dark:bg-primary-900/20 rounded-xl shadow-md">
+              <div class="flex items-center space-x-3 mb-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="check" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <h3 class="text-base font-semibold text-primary-700 dark:text-primary-300">Neurociência</h3>
+              </div>
+              <p class="text-sm text-gray-700 dark:text-gray-300">
+                Modelos como a IIT demonstram que a unidade experiencial emerge de integração informacional, sugerindo que a consciência é uma propriedade fundamental do universo.<sup class="citation"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4014402/" target="_blank">6</a></sup>
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-accent-50/50 dark:bg-accent-900/20 rounded-xl shadow-md">
+              <div class="flex items-center space-x-3 mb-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="check" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <h3 class="text-base font-semibold text-accent-700 dark:text-accent-300">Física Quântica</h3>
+              </div>
+              <p class="text-sm text-gray-700 dark:text-gray-300">
+                Interpretações como a RQM eliminam a necessidade de observadores clássicos, sugerindo que a consciência emerge naturalmente de interações fundamentais.<sup class="citation"><a href="https://plato.stanford.edu/entries/qm-relational/" target="_blank">65</a></sup>
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-primary-50/50 dark:bg-primary-900/20 rounded-xl shadow-md">
+              <div class="flex items-center space-x-3 mb-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="check" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <h3 class="text-base font-semibold text-primary-700 dark:text-primary-300">Ontologia</h3>
+              </div>
+              <p class="text-sm text-gray-700 dark:text-gray-300">
+                Estruturas formais capturam a natureza fundamental da identidade numérica, fornecendo base rigorosa para compreender a unidade experiencial.<sup class="citation"><a href="https://link.springer.com/content/pdf/10.1007/978-1-4020-6204-9.pdf" target="_blank">121</a></sup>
+              </p>
+            </div>
+          </div>
+
+          <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed">
+              <i data-lucide="lightbulb" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              A singularidade numérica implica que a ética global deve transcender fronteiras individuais, reconhecendo que todos os seres conscientes compartilham uma única identidade fundamental.<sup class="citation"><a href="https://www.researchgate.net/publication/321595249_I_Am_You_The_Metaphysical_Foundations_for_Global_Ethics" target="_blank">91</a></sup>
+            </p>
+          </div>
+
+          <p class="text-lg text-gray-700 dark:text-gray-300">
+            Esta investigação demonstra que o Individualismo Aberto não é uma mera especulação filosófica, mas uma posição metafísica fundamentada em evidências empíricas e teóricas robustas. A integração entre neurociência, física quântica e ontologia formal fornece uma base científica sólida para compreender a natureza fundamental da realidade consciente.<sup class="citation"><a href="https://www.researchgate.net/publication/321595249_I_Am_You_The_Metaphysical_Foundations_for_Global_Ethics" target="_blank">91</a></sup>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-primary-900 dark:bg-gray-950 text-gray-300 py-12">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <h3 class="text-lg font-semibold text-primary-300 mb-4">Sobre este Estudo</h3>
+          <p class="text-sm text-gray-400">
+            Análise acadêmica do Individualismo Aberto com fundamentação científica contemporânea em neurociência, física quântica e ontologia filosófica.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-primary-300 mb-4">Disciplinas</h3>
+          <ul class="text-sm text-gray-400 space-y-2">
+            <li>• Neurociência da Consciência</li>
+            <li>• Física Quântica</li>
+            <li>• Ontologia Formal</li>
+            <li>• Cognição Social</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-primary-300 mb-4">Metodologia</h3>
+          <ul class="text-sm text-gray-400 space-y-2">
+            <li>• Revisão Sistemática</li>
+            <li>• Análise Crítica</li>
+            <li>• Integração Multidisciplinar</li>
+            <li>• Fundamentação Empírica</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
+        <p>&copy; 2025 Pesquisa Acadêmica sobre Individualismo Aberto. Conteúdo exclusivamente informativo.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chart Initialization Script -->
+  <script>
+    // Função para alternar modo claro/escuro
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.getElementById('sunIcon').style.display = isDark ? 'block' : 'none';
+      document.getElementById('moonIcon').style.display = isDark ? 'none' : 'block';
+      updateCharts();
+    }
+
+    // Configuração dos gráficos
+    const getThemeColor = (light, dark) => document.body.classList.contains('dark') ? dark : light;
+    let charts = {};
+    
+    const getColors = () => ({
+      primary: getThemeColor('#1a73b3', '#60a5fa'),
+      accent: getThemeColor('#6366f1', '#a78bfa'),
+      text: getThemeColor('#374151', '#d1d5db'),
+      grid: getThemeColor('#e5e7eb', '#374151')
+    });
+    
+    const updateCharts = () => {
+      const { text, grid } = getColors();
+      
+      Object.values(charts).forEach(chart => {
+        if (chart?.options) {
+          if (chart.options.plugins?.legend?.labels) chart.options.plugins.legend.labels.color = text;
+          if (chart.options.plugins?.title) chart.options.plugins.title.color = text;
+          if (chart.options.scales) {
+            Object.values(chart.options.scales).forEach(scale => {
+              if (scale.ticks) scale.ticks.color = text;
+              if (scale.grid) scale.grid.color = grid;
+              if (scale.pointLabels) scale.pointLabels.color = text;
+              if (scale.title) scale.title.color = text;
+            });
+          }
+          chart.update('none');
+        }
+      });
+    };
+
+    // Data dos gráficos
+    const iitVersions = ['IIT 3.0', 'IIT 4.0'];
+    const iitPapers = [1593, 281];
+    const ontologyYears = ['2000', '2005', '2010', '2015', '2020', '2025'];
+    const ontologyConferences = [1, 2, 3, 4, 5, 6];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const { primary, accent, text, grid } = getColors();
+      
+      const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: text } } },
+        scales: {
+          x: { ticks: { color: text }, grid: { color: grid } },
+          y: { beginAtZero: true, ticks: { color: text }, grid: { color: grid } }
+        }
+      };
+
+      // Gráfico IIT
+      if (document.getElementById('iitChart')) {
+        charts.iit = new Chart(document.getElementById('iitChart'), {
+          type: 'bar',
+          data: {
+            labels: iitVersions,
+            datasets: [{
+              label: 'Número de Citações',
+              data: iitPapers,
+              backgroundColor: [primary, accent]
+            }]
+          },
+          options: {
+            ...commonOptions,
+            plugins: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'Comparação de Impacto: IIT 3.0 vs IIT 4.0',
+                color: text,
+                font: { size: 14, weight: 'bold' }
+              }
+            }
+          }
+        });
+      }
+
+      // Gráfico Ontologia
+      if (document.getElementById('ontologyChart')) {
+        charts.ontology = new Chart(document.getElementById('ontologyChart'), {
+          type: 'line',
+          data: {
+            labels: ontologyYears,
+            datasets: [{
+              label: 'Conferências Internacionais',
+              data: ontologyConferences,
+              borderColor: accent,
+              backgroundColor: getThemeColor('rgba(99, 102, 241, 0.1)', 'rgba(99, 102, 241, 0.2)'),
+              tension: 0.4
+            }]
+          },
+          options: {
+            ...commonOptions,
+            plugins: {
+              legend: { labels: { color: text } },
+              title: {
+                display: true,
+                text: 'Crescimento da Ontologia Formal (2000-2025)',
+                color: text,
+                font: { size: 14, weight: 'bold' }
+              }
+            }
+          }
+        });
+      }
+      
+      // Inicializa ícones
+      lucide.createIcons();
+      
+      // Inicializa animações
+      AOS.init({ duration: 800, once: true, offset: 100 });
+      
+      // Observador para mudanças no tema
+      new MutationObserver(updateCharts).observe(document.body, { 
+        attributes: true, 
+        attributeFilter: ['class'] 
+      });
+    });
+
+    // Barra de progresso e navegação
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progressBar').style.width = scrolled + '%';
+
+      // Destaque da navegação
+      const sections = document.querySelectorAll('section[id]');
+      const scrollPos = window.scrollY + 100;
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+          document.querySelectorAll('nav a').forEach(link => {
+            link.classList.remove('text-primary-600', 'dark:text-primary-400');
+            link.classList.add('text-gray-600', 'dark:text-gray-400');
+          });
+          const currentLink = document.querySelector(`nav a[href="#${section.id}"]`);
+          if (currentLink) {
+            currentLink.classList.remove('text-gray-600', 'dark:text-gray-400');
+            currentLink.classList.add('text-primary-600', 'dark:text-primary-400');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
