@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,10 @@
       darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Merriweather', 'serif'],
+          },
           colors: {
             primary: {
               50: 'hsl(210, 75%, 95%)',
@@ -42,40 +46,52 @@
       }
     }
   </script>
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Alpine.js for interactivity -->
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+  <!-- Google Fonts for better readability -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
 
-  <!-- Micro-interactions & Custom Styles -->
   <style>
-    html { scroll-behavior: smooth; }
-
+    /* Base Styles & Accessibility */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
-      html { scroll-behavior: auto; }
     }
 
-    /* Content Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Typography & Content Layout */
     .article-content {
       line-height: 1.8;
       font-size: 1.125rem;
-      max-width: 65ch;
+      max-width: 65ch; /* Optimal reading width */
       margin: 0 auto;
+      font-family: 'Merriweather', serif; /* Serif for body text improves readability */
     }
 
     .article-content h2 {
-      font-size: 2.25rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.75rem;
+      line-height: 1.3;
       font-weight: 700;
-      margin: 3rem 0 1.5rem;
+      margin: 3.5rem 0 1.5rem;
       color: hsl(210, 75%, 30%);
       border-bottom: 2px solid hsl(210, 75%, 90%);
       padding-bottom: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .article-content h2 { font-size: 2.25rem; }
     }
 
     .dark .article-content h2 {
@@ -84,7 +100,8 @@
     }
 
     .article-content h3 {
-      font-size: 1.75rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
       font-weight: 600;
       margin: 2.5rem 0 1rem;
       color: hsl(210, 75%, 25%);
@@ -95,23 +112,29 @@
     }
 
     .article-content h4 {
-      font-size: 1.375rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.25rem;
       font-weight: 600;
       margin: 2rem 0 1rem;
     }
 
     .article-content p {
       margin: 1.25rem 0;
-      text-align: justify;
+      text-align: left; /* Better for accessibility/dyslexia than justify */
+    }
+    
+    @media (min-width: 768px) {
+        .article-content p { text-align: justify; }
     }
 
     .article-content ul, .article-content ol {
       margin: 1.25rem 0;
-      padding-left: 1.75rem;
+      padding-left: 1.5rem;
     }
 
     .article-content li {
       margin: 0.5rem 0;
+      padding-left: 0.5rem;
     }
 
     /* Citation Style */
@@ -119,26 +142,32 @@
       font-size: 0.75em;
       vertical-align: super;
       line-height: 1;
+      font-family: 'Inter', sans-serif;
+      color: #6366f1;
+      font-weight: 600;
+      padding: 0 2px;
     }
 
     .citation a {
-      color: inherit;
       text-decoration: none;
-      border-bottom: 1px dotted currentColor;
-      transition: all 0.2s ease;
+      transition: color 0.2s ease;
     }
 
-    .citation a:hover {
-      color: #3b82f6;
-      border-bottom: 1px solid #3b82f6;
+    /* Table Styles - Responsive Wrapper */
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        margin: 2rem 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    /* Table Styles */
     .article-table {
       width: 100%;
+      min-width: 600px; /* Force scroll on small screens */
       border-collapse: collapse;
-      margin: 2rem 0;
       font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
     }
 
     .article-table th {
@@ -147,7 +176,8 @@
       font-weight: 600;
       padding: 1rem;
       text-align: left;
-      border: 1px solid hsl(210, 75%, 85%);
+      border-bottom: 2px solid hsl(210, 75%, 85%);
+      white-space: nowrap;
     }
 
     .dark .article-table th {
@@ -158,24 +188,32 @@
 
     .article-table td {
       padding: 1rem;
-      border: 1px solid hsl(210, 75%, 85%);
+      border-bottom: 1px solid hsl(210, 75%, 90%);
       vertical-align: top;
     }
 
     .dark .article-table td {
-      border-color: hsl(210, 75%, 25%);
+      border-color: hsl(210, 75%, 20%);
     }
 
-    /* Chart Container */
+    /* Chart Container - Responsive Height */
     .chart-container {
       position: relative;
-      height: 400px;
-      margin: 3rem 0;
+      width: 100%;
+      height: 300px; /* Mobile height */
+      margin: 3rem 0 1rem 0;
       background: white;
       border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       border: 1px solid hsl(210, 75%, 90%);
+    }
+
+    @media (min-width: 768px) {
+        .chart-container {
+            height: 450px; /* Desktop height */
+            padding: 1.5rem;
+        }
     }
 
     .dark .chart-container {
@@ -183,864 +221,819 @@
       border-color: hsl(210, 75%, 20%);
     }
 
-    /* Interactive Cards */
-    .interactive-card {
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: 1px solid transparent;
-    }
-
-    .interactive-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
-      border-color: hsl(210, 75%, 70%);
-    }
-
-    .dark .interactive-card:hover {
-      border-color: hsl(210, 75%, 50%);
-    }
-
-    /* Image Styles */
+    /* Images */
     .article-image {
       width: 100%;
       height: auto;
       border-radius: 12px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      margin: 2rem 0;
+      margin: 2rem 0 0.5rem 0;
       border: 1px solid hsl(210, 75%, 90%);
     }
 
     .dark .article-image {
       border-color: hsl(210, 75%, 20%);
-    }
-
-    .article-image:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+      opacity: 0.9;
     }
 
     .image-caption {
       text-align: center;
-      font-style: italic;
-      color: #666;
-      margin-top: 0.5rem;
-      margin-bottom: 2rem;
-      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 2.5rem;
     }
 
-    .dark .image-caption {
-      color: #aaa;
+    .dark .image-caption { color: #9ca3af; }
+
+    /* Interactive Cards */
+    .interactive-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: default;
+    }
+    
+    .interactive-card:hover {
+        transform: translateY(-2px);
     }
 
-    /* Section Backgrounds */
-    .section-neuro {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(168, 85, 247, 0.03) 100%);
-    }
-
-    .dark .section-neuro {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-    }
-
-    .section-physics {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(16, 185, 129, 0.03) 100%);
-    }
-
-    .dark .section-physics {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%);
-    }
-
-    .section-ethics {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.03) 0%, rgba(239, 68, 68, 0.03) 100%);
-    }
-
-    .dark .section-ethics {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%);
-    }
-
-    /* Text Highlight */
-    .text-highlight {
-      background: linear-gradient(120deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      border-left: 3px solid #3b82f6;
-    }
-
-    .dark .text-highlight {
-      background: linear-gradient(120deg, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0.1) 100%);
-    }
   </style>
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
-  <!-- Progress bar -->
-  <div class="fixed top-0 left-0 h-1 bg-primary-500 dark:bg-primary-400 z-[60] transition-all duration-300 ease-out" id="progressBar"></div>
+<body x-data="{ darkMode: false, mobileMenuOpen: false }" 
+      :class="{ 'dark': darkMode }" 
+      class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-300">
 
-  <!-- Floating Header -->
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border-b border-primary-500/20 dark:border-primary-600/20 shadow-sm">
-    <div class="max-w-7xl mx-auto px-6 py-4">
-      <div class="flex items-center justify-between">
-        <h1 class="text-xl font-bold text-primary-700 dark:text-primary-300">Do Cérebro ao Cosmos</h1>
+  <!-- Progress bar -->
+  <div class="fixed top-0 left-0 h-1 bg-primary-500 dark:bg-primary-400 z-[70]" id="progressBar"></div>
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
         
-        <nav class="hidden md:flex items-center space-x-6">
-          <a href="#introducao" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Introdução</a>
-          <a href="#fundamentos-neurocientificos" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Neurociência</a>
-          <a href="#fundamentos-fisicos-ontologicos" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Física</a>
-          <a href="#complementacoes-conceituais" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Conceitos</a>
-          <a href="#implicacoes-eticas-criticas" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Ética</a>
-          <a href="#sintese-conclusoes" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Conclusão</a>
+        <!-- Logo/Title -->
+        <div class="flex-shrink-0 flex items-center">
+          <span class="text-lg md:text-xl font-bold text-primary-700 dark:text-primary-300 tracking-tight truncate max-w-[200px] md:max-w-none">
+            Do Cérebro ao Cosmos
+          </span>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <template x-for="item in [
+            {id: '#introducao', label: 'Introdução'},
+            {id: '#fundamentos-neurocientificos', label: 'Neurociência'},
+            {id: '#fundamentos-fisicos-ontologicos', label: 'Física'},
+            {id: '#complementacoes-conceituais', label: 'Conceitos'},
+            {id: '#implicacoes-eticas-criticas', label: 'Ética'},
+            {id: '#sintese-conclusoes', label: 'Conclusão'}
+          ]">
+            <a :href="item.id" 
+               class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+               x-text="item.label"></a>
+          </template>
+
+          <!-- Theme Toggle Desktop -->
+          <button @click="darkMode = !darkMode; setTimeout(() => updateCharts(), 100)" 
+                  class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500">
+            <i data-lucide="sun" class="w-5 h-5 text-amber-500" x-show="!darkMode"></i>
+            <i data-lucide="moon" class="w-5 h-5 text-primary-300" x-show="darkMode" style="display:none;"></i>
+          </button>
         </nav>
 
-        <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-primary-100 dark:bg-primary-800 text-primary-600 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-700 transition-all">
-          <i data-lucide="sun" id="sunIcon" class="w-5 h-5"></i>
-          <i data-lucide="moon" id="moonIcon" class="w-5 h-5" style="display:none;"></i>
-        </button>
+        <!-- Mobile Menu Button -->
+        <div class="flex md:hidden items-center space-x-4">
+            <!-- Theme Toggle Mobile -->
+            <button @click="darkMode = !darkMode; setTimeout(() => updateCharts(), 100)" 
+                class="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
+                <i data-lucide="sun" class="w-5 h-5" x-show="!darkMode"></i>
+                <i data-lucide="moon" class="w-5 h-5" x-show="darkMode" style="display:none;"></i>
+            </button>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" 
+                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" 
+                    aria-controls="mobile-menu" aria-expanded="false">
+              <span class="sr-only">Abrir menu principal</span>
+              <i data-lucide="menu" class="block h-6 w-6" x-show="!mobileMenuOpen"></i>
+              <i data-lucide="x" class="block h-6 w-6" x-show="mobileMenuOpen" style="display:none;"></i>
+            </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu (Alpine.js) -->
+    <div class="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900" 
+         id="mobile-menu" 
+         x-show="mobileMenuOpen" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-2"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-2"
+         style="display: none;">
+      <div class="px-2 pt-2 pb-3 space-y-1 shadow-lg">
+        <template x-for="item in [
+            {id: '#introducao', label: 'Introdução'},
+            {id: '#fundamentos-neurocientificos', label: 'Fundamentos Neurocientíficos'},
+            {id: '#fundamentos-fisicos-ontologicos', label: 'Física e Ontologia'},
+            {id: '#complementacoes-conceituais', label: 'Complementações Conceituais'},
+            {id: '#implicacoes-eticas-criticas', label: 'Implicações Éticas'},
+            {id: '#sintese-conclusoes', label: 'Conclusão'}
+        ]">
+            <a :href="item.id" 
+               @click="mobileMenuOpen = false"
+               class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+               x-text="item.label"></a>
+        </template>
       </div>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="min-h-screen pt-20">
-    <!-- Introdução Section -->
-    <section id="introducao" class="py-20 bg-gradient-to-br from-primary-50 to-accent-50 dark:from-gray-900 dark:to-gray-800">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-400 dark:to-accent-400 bg-clip-text text-transparent">
-            Do Cérebro ao Cosmos
-          </h1>
-          <h2 class="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-8">
-            Uma Fundamentação Científica para a Tese da Unidade da Consciência
-          </h2>
-        </div>
-
-        <div class="article-content">
-          <h2 id="fundamentos-neurocientificos">Fundamentos Neurocientíficos: A Ilusão da Fronteira Individual e a Unidade Fenomenal</h2>
-          
-          <p>
-            A formulação filosófica do Individualismo Aberto (IA), articulada de forma robusta por Daniel Kolak, postula que existe um único sujeito numericamente idêntico em toda a existência, dissolvendo as fronteiras metafísicas que separam as identidades pessoais <a href="#ref-63" class="citation">63</a> <a href="#ref-91" class="citation">91</a>. Para fortalecer esta tese radical, é imperativo ancorá-la em fundamentos empíricos e mecanicistas fornecidos pelas ciências cognitivas. A neurociência contemporânea, através de modelos formais como o Modelo do Eu Fenomenal (MEF), a Teoria da Informação Integrada (TII) e as teorias da Predição Ativa, oferece um arsenal de evidências e estruturas analíticas que corroboram a ideia de que a experiência fenomenológica de ser um indivíduo fechado é uma ilusão funcional, análoga aos processos dissociativos observados clinicamente. Esta seção irá dissecar estas contribuições científicas, demonstrando como elas expandem e refinam a argumentação original de Kolak, transformando analogias poderosas em teorias testáveis.
-          </p>
-
-          <p>
-            O trabalho de Thomas Metzinger, particularmente a sua Teoria do Modelo do Eu Fenomenal (PSM), representa um avanço crucial para a compreensão da ilusão da fronteira individual <a href="#ref-45" class="citation">45</a> <a href="#ref-98" class="citation">98</a>. Metzinger argumenta que "ninguém nunca teve ou foi um eu", pois o "eu" não é uma substância ou um objeto no cérebro, mas sim um modelo computacional ativo, uma simulação virtual do organismo que é gerada para facilitar a navegação e a sobrevivência <a href="#ref-44" class="citation">44</a> <a href="#ref-45" class="citation">45</a>. Este modelo possui propriedades específicas, como a transparência fenomenal, que faz com que o cérebro "olhe através" dele, confundindo a representação com a realidade que ela modela <a href="#ref-132" class="citation">132</a>. O PSM é dual em sua natureza: modela tanto o corpo físico ("self corporal") quanto a narrativa contínua das memórias, crenças e traços de personalidade ("self pessoal") <a href="#ref-133" class="citation">133</a>.
-          </p>
-
-          <!-- Gráfico 1: Visão Geral -->
-          <div class="chart-container">
-            <canvas id="overviewChart"></canvas>
-          </div>
-          <p class="image-caption">Visão geral das dimensões científicas que fundamentam o Individualismo Aberto</p>
-
-          <p>
-            A fragilidade deste modelo é evidenciada em condições patológicas, onde a integridade da experiência de um único self é explicitamente quebrada. O Transtorno Dissociativo de Identidade (anteriormente conhecido como Transtorno de Personalidade Múltipla) serve como um exemplo paradigmático: um único organismo hospeda múltiplos sistemas de auto, cada um com sua própria narrativa e acesso limitado às memórias dos outros <a href="#ref-97" class="citation">97</a> <a href="#ref-131" class="citation">131</a>. Apesar disso, externamente, há claramente apenas um ser senciente presente, fragmentado por barreiras psicológicas funcionais <a href="#ref-87" class="citation">87</a>. Da mesma forma, a síndrome do cérebro dividido, resultante da secção do corpo caloso, demonstra que a consciência pode se fragmentar em dois fluxos distintos, um associado a cada hemisfério cerebral, semelhante a dois sistemas operacionais rodando em paralelo <a href="#ref-9" class="citation">9</a> <a href="#ref-59" class="citation">59</a> <a href="#ref-61" class="citation">61</a>.
-          </p>
-
-          <p>
-            O trabalho de Kolak, que utiliza a dissociação como uma analogia para as fronteiras interpessoais, ganha aqui um respaldo mecanicista direto: as fronteiras que definem o "eu" não são metafísicas, mas psicológicas, análogas a essas barreiras dissociativas <a href="#ref-46" class="citation">46</a>. Sob a perspectiva do IA, cada indivíduo humano seria um "alter" do sujeito universal, com a privacidade epistêmica (a incapacidade de acessar diretamente a mente de outro) sendo uma característica necessária para a funcionalidade do sistema, tal como a amnésia de memória compartilhada é necessária para a funcionalidade de um alter em um paciente com DID.
-          </p>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="brain-circuit" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
-                </div>
-                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300">PSM</h4>
-              </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Modelo do Eu Fenomenal: construção computacional da identidade
-              </p>
-            </div>
-            
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-accent-100 dark:bg-accent-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="git-merge" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
-                </div>
-                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300">IIT</h4>
-              </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Teoria da Informação Integrada: consciência como propriedade fundamental
-              </p>
-            </div>
-            
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="activity" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
-                </div>
-                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300">PA/PP</h4>
-              </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Predição Ativa: construção bayesiana da realidade
-              </p>
-            </div>
-          </div>
-
-          <p>
-            Avançando além da analogia da dissociação, o Problema da Ligação Fenomenal emerge como um argumento científico potente a favor da unidade primária da consciência. Este problema pergunta como bilhões de neurônios independentes, espacialmente separados, conseguem produzir uma única experiência consciente unificada <a href="#ref-51" class="citation">51</a>. Se a consciência fosse uma propriedade meramente emergente de cada neurônio individual, deveríamos experimentar milhares de micro-consciências simultaneamente. A resposta para este problema encontra-se em parte na Teoria da Informação Integrada (IIT) de Giulio Tonomi, especialmente em suas formulações mais recentes, como a IIT 4.0 <a href="#ref-23" class="citation">23</a> <a href="#ref-40" class="citation">40</a> <a href="#ref-41" class="citation">41</a>.
-          </p>
-
-          <!-- Gráfico 2: Teoria da Informação Integrada -->
-          <div class="chart-container">
-            <canvas id="iitChart"></canvas>
-          </div>
-          <p class="image-caption">Teoria da Informação Integrada: Níveis de Φ em diferentes sistemas</p>
-
-          <p>
-            A IIT postula que a consciência não é algo que "gera" o cérebro, mas sim uma propriedade fundamental da realidade, derivada de sistemas de informação que possuem uma alta medida de causalidade integrada, denotada por Φ (Phi) <a href="#ref-42" class="citation">42</a> <a href="#ref-112" class="citation">112</a>. Um sistema com Φ > 0 é intrinsecamente unificado; suas partes não podem ser manipuladas ou separadas arbitrariamente sem afetar a identidade causal do todo. A experiência consciente é, por definição, unitária e irreducível a seus componentes <a href="#ref-93" class="citation">93</a>. A IIT oferece um argumento direto contra o Individualismo Fechado: se duas entidades conscientes estivessem completamente desconectadas, o sistema combinado teria Φ = 0 e, portanto, não seria consciente. Para haver consciência, é necessário um nível mínimo de integração.
-          </p>
-
-          <p>
-            O Individualismo Aberto surge naturalmente deste quadro: o universo inteiro, como um vasto sistema de informação, possui o valor de Φ mais alto possível. Os cérebros individuais são sub-sistemas altamente integrados (com alto Φ local) que são, em última análise, parte dessa rede cósmica de integração <a href="#ref-50" class="citation">50</a>. A experiência de unicidade de primeira pessoa não contradiz a unidade ontológica, mas é uma consequência da arquitetura hierárquica do cosmos informacional, onde a integração máxima ocorre em escalas maiores. Estudos baseados na IIT sugerem que, em casos de divisão do corpo caloso, cada hemisfera isolada pode manter um grau de consciência, mas o sistema combinado tem uma medida de integração menor do que a soma de suas partes, refletindo a desintegração da experiência unificada <a href="#ref-90" class="citation">90</a>. Isso mostra que a unidade fenomênica é um produto da conectividade causal, e a fragmentação desta conectividade leva a uma fragmentação da experiência, validando a tese de que a integração é a propriedade fundamental da consciência.
-          </p>
-
-          <!-- Imagem: Cérebro Dividido -->
-          <img 
-            src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-            alt="Rede neural e conectividade cerebral" 
-            class="article-image"
-          >
-          <p class="image-caption">Representação da conectividade neural e integração informacional no cérebro</p>
-
-          <p>
-            Uma terceira abordagem neurocientífica, complementar às anteriores, é oferecida pelas teorias da Predição Ativa (PA) e do Processamento Preditivo (PP). Essas teorias propõem que o cérebro funciona como um cientista bayesiano, constantemente gerando modelos internos do mundo e ajustando-os para minimizar o erro de predição — a discrepância entre as previsões sensoriais e a entrada sensorial real <a href="#ref-111" class="citation">111</a> <a href="#ref-136" class="citation">136</a>. A percepção, portanto, não é uma janela passiva para o mundo exterior, mas um processo inferencial ativo de construir a realidade.
-          </p>
-
-          <!-- Gráfico 3: Síndrome do Cérebro Dividido -->
-          <div class="chart-container">
-            <canvas id="splitBrainChart"></canvas>
-          </div>
-          <p class="image-caption">Síndrome do Cérebro Dividido: Evolução temporal da integração neural</p>
-
-          <p>
-            Esta perspectiva transforma fundamentalmente a noção de intersubjetividade. Em vez de duas mentes isoladas tentando se comunicar através de canais defeituosos, temos sistemas preditivos que co-evoluem continuamente através da interação social <a href="#ref-72" class="citation">72</a>. O "outro" não é um objeto externo a ser modelado, mas uma fonte crucial de dados sensoriais que permite ao nosso cérebro refinar seu modelo do mundo e do próprio agente social. A habilidade humana de desenvolver uma "Teoria da Mente" — a capacidade de atribuir estados mentais (crenças, desejos) a outros agentes — pode ser vista como um algoritmo de predição específico otimizado para prever o comportamento de outros sistemas preditivos <a href="#ref-37" class="citation">37</a> <a href="#ref-38" class="citation">38</a>.
-          </p>
-
-          <p>
-            Sob a ótica do IA, a fronteira entre "eu" e "outro" torna-se uma convenção pragmática e epistemológica, não uma barreira metafísica. Ela emerge da necessidade de manter modelos internos distintos para prever o comportamento de múltiplos agentes sociais. No entanto, a capacidade de fazer essas previsões depende fundamentalmente da nossa própria natureza preditiva, sugerindo uma profundidade ontológica compartilhada <a href="#ref-58" class="citation">58</a>. A neurofenomenologia, inspirada pelo trabalho de Francisco Varela, busca pontuar a interface entre a descrição fenomenológica da primeira pessoa e os dados objetivos da terceira pessoa, oferecendo um caminho para investigar empiricamente como esses modelos preditivos são construídos e ajustados na interação <a href="#ref-108" class="citation">108</a> <a href="#ref-110" class="citation">110</a>. A hipótese da empatia graduada, por exemplo, postula que a atenção direcionada aos sinais expressivos do outro sempre facilita a sintonia empática, indicando que a conexão inter-subjetiva é um processo dinâmico e mediado, não uma dado fixo <a href="#ref-19" class="citation">19</a>. Isso sugere que, mesmo sob o IA, a experiência da alteridade permanece como um desafio prático e epistemológico, embora a sua base ontológica seja a da própria consciência.
-          </p>
-
-          <table class="article-table">
-            <thead>
-              <tr>
-                <th>Modelo Neurocientífico</th>
-                <th>Premissa Central</th>
-                <th>Implicação para o Individualismo Aberto</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Modelo do Eu Fenomenal (PSM)</td>
-                <td>O "eu" é um modelo computacional gerado pelo cérebro, não uma substância. <a href="#ref-98" class="citation">98</a></td>
-                <td>As fronteiras individuais são análogas a barreiras dissociativas funcionais. O "eu" é uma interface, não o usuário. <a href="#ref-48" class="citation">48</a></td>
-              </tr>
-              <tr>
-                <td>Teoria da Informação Integrada (IIT)</td>
-                <td>A consciência é uma propriedade de sistemas com alta causalidade integrada (Φ > 0). <a href="#ref-23" class="citation">23</a></td>
-                <td>A consciência é uma propriedade fundamental e unitária. Indivíduos desconectados não têm consciência conjunta. <a href="#ref-42" class="citation">42</a></td>
-              </tr>
-              <tr>
-                <td>Predição Ativa (PA) / Processamento Preditivo (PP)</td>
-                <td>O cérebro constrói a realidade através da minimização de erros de predição. <a href="#ref-111" class="citation">111</a></td>
-                <td>A fronteira "eu-outro" é pragmática, emergindo da necessidade de modelar múltiplos agentes preditivos. <a href="#ref-72" class="citation">72</a></td>
-              </tr>
-              <tr>
-                <td>Síndrome do Cérebro Dividido</td>
-                <td>A secção do corpo caloso pode levar à fragmentação da consciência em dois fluxos. <a href="#ref-9" class="citation">9</a></td>
-                <td>Prova de conceito de que a unidade da consciência depende da integração neural, apoiando a tese de que a fragmentação é funcional. <a href="#ref-95" class="citation">95</a></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <p>
-            Em suma, a neurociência contemporânea fornece um arcabouço robusto para a argumentação do Individualismo Aberto. A partir de diferentes ângulos — a construção do self como um modelo falho, a unidade causal da consciência como um princípio físico e a natureza interativa da realidade percebida — todas as três abordagens convergem para uma conclusão similar: a experiência imediata de ser um indivíduo fechado e separado é uma projeção útil, mas ontologicamente inexata, da verdade subjacente da consciência. O cérebro evoluiu para criar uma ilusão de unicidade para fins adaptativos, focando na informação relevante para a sobrevivência do organismo que o hospeda, enquanto a estrutura fundamental da realidade pode ser muito mais complexa e interconectada <a href="#ref-5" class="citation">5</a>. A fusão entre a exegese filosófica de Kolak e estas teorias neurocientíficas não apenas corrobora a intuição do IA, mas também a eleva de uma mera especulação metafísica a uma hipótese plausível dentro do quadro da ciência cognitiva moderna.
-          </p>
-        </div>
+  <main class="pt-16 md:pt-20">
+    
+    <!-- Introdução / Hero Section -->
+    <section id="introducao" class="py-12 md:py-24 bg-gradient-to-b from-primary-50/50 to-white dark:from-gray-900 dark:to-gray-950">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span class="inline-block py-1 px-3 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-sm font-semibold mb-6">
+            Artigo Científico
+        </span>
+        <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900 dark:text-white leading-tight tracking-tight">
+          Do Cérebro ao Cosmos
+        </h1>
+        <h2 class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-normal max-w-2xl mx-auto leading-relaxed">
+          Uma Fundamentação Científica para a Tese da Unidade da Consciência
+        </h2>
       </div>
     </section>
 
-    <!-- Física Quântica Section -->
-    <section id="fundamentos-fisicos-ontologicos" class="py-20 section-physics">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-accent-700 dark:text-accent-300">
-            Fundamentos Físicos e Ontológicos
-          </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Da Mecânica Quântica à Unidade Universal
-          </p>
+    <!-- Conteúdo Principal Wrapper -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      
+      <div class="article-content">
+        
+        <!-- NEUROCIÊNCIA -->
+        <h2 id="fundamentos-neurocientificos">Fundamentos Neurocientíficos: A Ilusão da Fronteira Individual</h2>
+        
+        <p>
+          A formulação filosófica do Individualismo Aberto (IA), articulada de forma robusta por Daniel Kolak, postula que existe um único sujeito numericamente idêntico em toda a existência, dissolvendo as fronteiras metafísicas que separam as identidades pessoais <a href="#ref-63" class="citation">63</a> <a href="#ref-91" class="citation">91</a>. Para fortalecer esta tese radical, é imperativo ancorá-la em fundamentos empíricos e mecanicistas fornecidos pelas ciências cognitivas. A neurociência contemporânea, através de modelos formais como o Modelo do Eu Fenomenal (MEF), a Teoria da Informação Integrada (TII) e as teorias da Predição Ativa, oferece um arsenal de evidências e estruturas analíticas que corroboram a ideia de que a experiência fenomenológica de ser um indivíduo fechado é uma ilusão funcional, análoga aos processos dissociativos observados clinicamente. Esta seção irá dissecar estas contribuições científicas, demonstrando como elas expandem e refinam a argumentação original de Kolak, transformando analogias poderosas em teorias testáveis.
+        </p>
+
+        <p>
+          O trabalho de Thomas Metzinger, particularmente a sua Teoria do Modelo do Eu Fenomenal (PSM), representa um avanço crucial para a compreensão da ilusão da fronteira individual <a href="#ref-45" class="citation">45</a> <a href="#ref-98" class="citation">98</a>. Metzinger argumenta que "ninguém nunca teve ou foi um eu", pois o "eu" não é uma substância ou um objeto no cérebro, mas sim um modelo computacional ativo, uma simulação virtual do organismo que é gerada para facilitar a navegação e a sobrevivência <a href="#ref-44" class="citation">44</a> <a href="#ref-45" class="citation">45</a>. Este modelo possui propriedades específicas, como a transparência fenomenal, que faz com que o cérebro "olhe através" dele, confundindo a representação com a realidade que ela modela <a href="#ref-132" class="citation">132</a>. O PSM é dual em sua natureza: modela tanto o corpo físico ("self corporal") quanto a narrativa contínua das memórias, crenças e traços de personalidade ("self pessoal") <a href="#ref-133" class="citation">133</a>.
+        </p>
+
+        <!-- Gráfico 1: Visão Geral -->
+        <div class="chart-container">
+          <canvas id="overviewChart"></canvas>
+        </div>
+        <p class="image-caption">Visão geral das dimensões científicas que fundamentam o Individualismo Aberto</p>
+
+        <p>
+          A fragilidade deste modelo é evidenciada em condições patológicas, onde a integridade da experiência de um único self é explicitamente quebrada. O Transtorno Dissociativo de Identidade (anteriormente conhecido como Transtorno de Personalidade Múltipla) serve como um exemplo paradigmático: um único organismo hospeda múltiplos sistemas de auto, cada um com sua própria narrativa e acesso limitado às memórias dos outros <a href="#ref-97" class="citation">97</a> <a href="#ref-131" class="citation">131</a>. Apesar disso, externamente, há claramente apenas um ser senciente presente, fragmentado por barreiras psicológicas funcionais <a href="#ref-87" class="citation">87</a>. Da mesma forma, a síndrome do cérebro dividido, resultante da secção do corpo caloso, demonstra que a consciência pode se fragmentar em dois fluxos distintos, um associado a cada hemisfério cerebral, semelhante a dois sistemas operacionais rodando em paralelo <a href="#ref-9" class="citation">9</a> <a href="#ref-59" class="citation">59</a> <a href="#ref-61" class="citation">61</a>.
+        </p>
+
+        <p>
+          O trabalho de Kolak, que utiliza a dissociação como uma analogia para as fronteiras interpessoais, ganha aqui um respaldo mecanicista direto: as fronteiras que definem o "eu" não são metafísicas, mas psicológicas, análogas a essas barreiras dissociativas <a href="#ref-46" class="citation">46</a>. Sob a perspectiva do IA, cada indivíduo humano seria um "alter" do sujeito universal, com a privacidade epistêmica (a incapacidade de acessar diretamente a mente de outro) sendo uma característica necessária para a funcionalidade do sistema, tal como a amnésia de memória compartilhada é necessária para a funcionalidade de um alter em um paciente com DID.
+        </p>
+
+        <!-- Cards Interativos -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+          <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div class="flex items-center mb-3">
+              <div class="p-2 bg-primary-100 dark:bg-primary-900/50 rounded-lg mr-3">
+                <i data-lucide="brain-circuit" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">PSM</h4>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+              Modelo do Eu Fenomenal: construção computacional da identidade.
+            </p>
+          </div>
+          
+          <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div class="flex items-center mb-3">
+              <div class="p-2 bg-accent-100 dark:bg-accent-900/50 rounded-lg mr-3">
+                <i data-lucide="git-merge" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">IIT</h4>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+              Teoria da Informação Integrada: consciência como propriedade fundamental.
+            </p>
+          </div>
+          
+          <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div class="flex items-center mb-3">
+              <div class="p-2 bg-primary-100 dark:bg-primary-900/50 rounded-lg mr-3">
+                <i data-lucide="activity" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">PA/PP</h4>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+              Predição Ativa: construção bayesiana da realidade.
+            </p>
+          </div>
         </div>
 
-        <div class="article-content">
-          <p>
-            Para transcender as analogias filosóficas e as explicações mecanicistas da mente, o Individualismo Aberto (IA) busca uma ancoragem ainda mais profunda nas descrições mais fundamentais da realidade física. A física moderna, particularmente a mecânica quântica e a cosmologia, tem historicamente desafiado a visão atomística e separada da individualidade, fornecendo argumentos surpreendentes que parecem conspirar em favor de uma ontologia unificada. Embora Erwin Schrödinger tenha sido um precursor influente, alinhando a consciência com a filosofia vedanta <a href="#ref-63" class="citation">63</a>, pensadores contemporâneos estão desenvolvendo frameworks fisicalistas que buscam formalizar a tese da unidade da consciência. Esta seção explora como a Relational Quantum Mechanics (RQM), o panprotopsychismo e a emergência causal, via Teoria da Informação Integrada (IIT), oferecem novos pilares para a fundamentação ontológica do IA, complementando as lacunas conceptuais presentes nas formulações originais.
-          </p>
+        <p>
+          Avançando além da analogia da dissociação, o Problema da Ligação Fenomenal emerge como um argumento científico potente a favor da unidade primária da consciência. Este problema pergunta como bilhões de neurônios independentes, espacialmente separados, conseguem produzir uma única experiência consciente unificada <a href="#ref-51" class="citation">51</a>. Se a consciência fosse uma propriedade meramente emergente de cada neurônio individual, deveríamos experimentar milhares de micro-consciências simultaneamente. A resposta para este problema encontra-se em parte na Teoria da Informação Integrada (IIT) de Giulio Tonomi, especialmente em suas formulações mais recentes, como a IIT 4.0 <a href="#ref-23" class="citation">23</a> <a href="#ref-40" class="citation">40</a> <a href="#ref-41" class="citation">41</a>.
+        </p>
 
-          <!-- Imagem: Mecânica Quântica -->
-          <img 
+        <!-- Gráfico 2: IIT -->
+        <div class="chart-container">
+          <canvas id="iitChart"></canvas>
+        </div>
+        <p class="image-caption">Teoria da Informação Integrada: Níveis de Φ em diferentes sistemas</p>
+
+        <p>
+          A IIT postula que a consciência não é algo que "gera" o cérebro, mas sim uma propriedade fundamental da realidade, derivada de sistemas de informação que possuem uma alta medida de causalidade integrada, denotada por Φ (Phi) <a href="#ref-42" class="citation">42</a> <a href="#ref-112" class="citation">112</a>. Um sistema com Φ > 0 é intrinsecamente unificado; suas partes não podem ser manipuladas ou separadas arbitrariamente sem afetar a identidade causal do todo. A experiência consciente é, por definição, unitária e irreducível a seus componentes <a href="#ref-93" class="citation">93</a>. A IIT oferece um argumento direto contra o Individualismo Fechado: se duas entidades conscientes estivessem completamente desconectadas, o sistema combinado teria Φ = 0 e, portanto, não seria consciente. Para haver consciência, é necessário um nível mínimo de integração.
+        </p>
+
+        <p>
+          O Individualismo Aberto surge naturalmente deste quadro: o universo inteiro, como um vasto sistema de informação, possui o valor de Φ mais alto possível. Os cérebros individuais são sub-sistemas altamente integrados (com alto Φ local) que são, em última análise, parte dessa rede cósmica de integração <a href="#ref-50" class="citation">50</a>. A experiência de unicidade de primeira pessoa não contradiz a unidade ontológica, mas é uma consequência da arquitetura hierárquica do cosmos informacional, onde a integração máxima ocorre em escalas maiores. Estudos baseados na IIT sugerem que, em casos de divisão do corpo caloso, cada hemisfera isolada pode manter um grau de consciência, mas o sistema combinado tem uma medida de integração menor do que a soma de suas partes, refletindo a desintegração da experiência unificada <a href="#ref-90" class="citation">90</a>. Isso mostra que a unidade fenomênica é um produto da conectividade causal, e a fragmentação desta conectividade leva a uma fragmentação da experiência, validando a tese de que a integração é a propriedade fundamental da consciência.
+        </p>
+
+        <!-- Imagem: Cérebro Dividido -->
+        <img 
+          src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+          alt="Rede neural e conectividade cerebral" 
+          class="article-image"
+          loading="lazy"
+        >
+        <p class="image-caption">Representação da conectividade neural e integração informacional no cérebro</p>
+
+        <p>
+          Uma terceira abordagem neurocientífica, complementar às anteriores, é oferecida pelas teorias da Predição Ativa (PA) e do Processamento Preditivo (PP). Essas teorias propõem que o cérebro funciona como um cientista bayesiano, constantemente gerando modelos internos do mundo e ajustando-os para minimizar o erro de predição — a discrepância entre as previsões sensoriais e a entrada sensorial real <a href="#ref-111" class="citation">111</a> <a href="#ref-136" class="citation">136</a>. A percepção, portanto, não é uma janela passiva para o mundo exterior, mas um processo inferencial ativo de construir a realidade.
+        </p>
+
+        <!-- Gráfico 3: Síndrome do Cérebro Dividido -->
+        <div class="chart-container">
+          <canvas id="splitBrainChart"></canvas>
+        </div>
+        <p class="image-caption">Síndrome do Cérebro Dividido: Evolução temporal da integração neural</p>
+
+        <p>
+          Esta perspectiva transforma fundamentalmente a noção de intersubjetividade. Em vez de duas mentes isoladas tentando se comunicar através de canais defeituosos, temos sistemas preditivos que co-evoluem continuamente através da interação social <a href="#ref-72" class="citation">72</a>. O "outro" não é um objeto externo a ser modelado, mas uma fonte crucial de dados sensoriais que permite ao nosso cérebro refinar seu modelo do mundo e do próprio agente social. A habilidade humana de desenvolver uma "Teoria da Mente" — a capacidade de atribuir estados mentais (crenças, desejos) a outros agentes — pode ser vista como um algoritmo de predição específico otimizado para prever o comportamento de outros sistemas preditivos <a href="#ref-37" class="citation">37</a> <a href="#ref-38" class="citation">38</a>.
+        </p>
+        
+        <p>
+            Sob a ótica do IA, a fronteira entre "eu" e "outro" torna-se uma convenção pragmática e epistemológica, não uma barreira metafísica. Ela emerge da necessidade de manter modelos internos distintos para prever o comportamento de múltiplos agentes sociais. No entanto, a capacidade de fazer essas previsões depende fundamentalmente da nossa própria natureza preditiva, sugerindo uma profundidade ontológica compartilhada <a href="#ref-58" class="citation">58</a>. A neurofenomenologia, inspirada pelo trabalho de Francisco Varela, busca pontuar a interface entre a descrição fenomenológica da primeira pessoa e os dados objetivos da terceira pessoa, oferecendo um caminho para investigar empiricamente como esses modelos preditivos são construídos e ajustados na interação <a href="#ref-108" class="citation">108</a> <a href="#ref-110" class="citation">110</a>. A hipótese da empatia graduada, por exemplo, postula que a atenção direcionada aos sinais expressivos do outro sempre facilita a sintonia empática, indicando que a conexão inter-subjetiva é um processo dinâmico e mediado, não uma dado fixo <a href="#ref-19" class="citation">19</a>. Isso sugere que, mesmo sob o IA, a experiência da alteridade permanece como um desafio prático e epistemológico, embora a sua base ontológica seja a da própria consciência.
+        </p>
+
+        <!-- Tabela Responsiva 1 -->
+        <div class="table-wrapper">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th>Modelo Neurocientífico</th>
+                  <th>Premissa Central</th>
+                  <th>Implicação para o Individualismo Aberto</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Modelo do Eu Fenomenal (PSM)</td>
+                  <td>O "eu" é um modelo computacional gerado pelo cérebro. <a href="#ref-98" class="citation">98</a></td>
+                  <td>As fronteiras individuais são análogas a barreiras dissociativas funcionais. <a href="#ref-48" class="citation">48</a></td>
+                </tr>
+                <tr>
+                  <td>Teoria da Informação Integrada (IIT)</td>
+                  <td>A consciência é propriedade de sistemas com alta causalidade integrada. <a href="#ref-23" class="citation">23</a></td>
+                  <td>A consciência é fundamental e unitária. <a href="#ref-42" class="citation">42</a></td>
+                </tr>
+                <tr>
+                  <td>Predição Ativa (PA) / PP</td>
+                  <td>O cérebro constrói a realidade minimizando erros de predição. <a href="#ref-111" class="citation">111</a></td>
+                  <td>A fronteira "eu-outro" é pragmática e emergente. <a href="#ref-72" class="citation">72</a></td>
+                </tr>
+                <tr>
+                  <td>Síndrome do Cérebro Dividido</td>
+                  <td>A secção do corpo caloso fragmenta a consciência. <a href="#ref-9" class="citation">9</a></td>
+                  <td>Prova que a unidade depende da integração neural. <a href="#ref-95" class="citation">95</a></td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+
+        <p>
+          Em suma, a neurociência contemporânea fornece um arcabouço robusto para a argumentação do Individualismo Aberto. A partir de diferentes ângulos — a construção do self como um modelo falho, a unidade causal da consciência como um princípio físico e a natureza interativa da realidade percebida — todas as três abordagens convergem para uma conclusão similar: a experiência imediata de ser um indivíduo fechado e separado é uma projeção útil, mas ontologicamente inexata, da verdade subjacente da consciência. O cérebro evoluiu para criar uma ilusão de unicidade para fins adaptativos, focando na informação relevante para a sobrevivência do organismo que o hospeda, enquanto a estrutura fundamental da realidade pode ser muito mais complexa e interconectada <a href="#ref-5" class="citation">5</a>. A fusão entre a exegese filosófica de Kolak e estas teorias neurocientíficas não apenas corrobora a intuição do IA, mas também a eleva de uma mera especulação metafísica a uma hipótese plausível dentro do quadro da ciência cognitiva moderna.
+        </p>
+
+        <!-- FÍSICA -->
+        <h2 id="fundamentos-fisicos-ontologicos">Fundamentos Físicos e Ontológicos</h2>
+        
+        <p>
+            Para transcender as analogias filosóficas e as explicações mecanicistas da mente, o Individualismo Aberto (IA) busca uma ancoragem ainda mais profunda nas descrições mais fundamentais da realidade física. A física moderna, particularmente a mecânica quântica e a cosmologia, tem historicamente desafiado a visão atomística e separada da individualidade, fornecendo argumentos surpreendentes que parecem conspirar em favor de uma ontologia unificada. Embora Erwin Schrödinger tenha sido um precursor influente, alinhando a consciência com a filosofia vedanta <a href="#ref-63" class="citation">63</a>, pensadores contemporâneos estão desenvolvendo frameworks fisicalistas que buscam formalizar a tese da unidade da consciência. Esta seção explora como a Relational Quantum Mechanics (RQM), o panprotopsychismo e a emergência causal, via Teoria da Informação Integrada (IIT), oferecem novos pilares para a fundamentação ontológica do IA, complementando as lacunas conceptuais presentes nas formulações originais.
+        </p>
+
+        <img 
             src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
             alt="Representação de fenômenos quânticos" 
             class="article-image"
-          >
-          <p class="image-caption">Representação visual de interações quânticas e entrelaçamento</p>
+            loading="lazy"
+        >
+        <p class="image-caption">Representação visual de interações quânticas e entrelaçamento</p>
 
-          <p>
-            A Relational Quantum Mechanics (RQM), proposta por Carlo Rovelli, apresenta um dos quadros ontológicos mais promissores para o IA <a href="#ref-65" class="citation">65</a> <a href="#ref-100" class="citation">100</a>. O princípio central da RQM é que os atributos físicos de qualquer sistema — como posição, momento ou spin — não são propriedades absolutas e intrínsecas, mas sim relações entre sistemas <a href="#ref-105" class="citation">105</a>. Uma partícula só tem uma certa propriedade em relação a outra partícula que a mede. Não existe um estado absoluto da realidade; tudo é uma vasta e intricada rede de relações mutuas.
-          </p>
+        <p>
+          A Relational Quantum Mechanics (RQM), proposta por Carlo Rovelli, apresenta um dos quadros ontológicos mais promissores para o IA <a href="#ref-65" class="citation">65</a> <a href="#ref-100" class="citation">100</a>. O princípio central da RQM é que os atributos físicos de qualquer sistema — como posição, momento ou spin — não são propriedades absolutas e intrínsecas, mas sim relações entre sistemas <a href="#ref-105" class="citation">105</a>. Uma partícula só tem uma certa propriedade em relação a outra partícula que a mede. Não existe um estado absoluto da realidade; tudo é uma vasta e intricada rede de relações mutuas.
+        </p>
 
-          <!-- Gráfico 4: Panprotopsychismo -->
-          <div class="chart-container">
-            <canvas id="panpsychismChart"></canvas>
-          </div>
-          <p class="image-caption">Panprotopsychismo: Escalas de consciência em diferentes sistemas</p>
+        <!-- Gráfico 4: Panprotopsychismo -->
+        <div class="chart-container">
+          <canvas id="panpsychismChart"></canvas>
+        </div>
+        <p class="image-caption">Panprotopsychismo: Escalas de consciência em diferentes sistemas</p>
 
-          <p>
-            Neste cenário, a questão "quantas consciências existem?" torna-se malposta. A consciência não é um objeto que pode ser contado, mas um tipo particular de relação — a relação de observação. O universo é, em sua essência, uma grande teia de observações recíprocas. Cada "sujeito" consciente não é uma entidade numérica distinta, mas sim um ponto de vista local, uma perspectiva única dentro desta rede global. A visão de Niels Bohr sobre a inseparabilidade do sistema quântico e o aparato de medição é levada à sua conclusão lógica radical: a realidade é puramente relacional <a href="#ref-122" class="citation">122</a>.
-          </p>
+        <p>
+          Neste cenário, a questão "quantas consciências existem?" torna-se malposta. A consciência não é um objeto que pode ser contado, mas um tipo particular de relação — a relação de observação. O universo é, em sua essência, uma grande teia de observações recíprocas. Cada "sujeito" consciente não é uma entidade numérica distinta, mas sim um ponto de vista local, uma perspectiva única dentro desta rede global. A visão de Niels Bohr sobre a inseparabilidade do sistema quântico e o aparato de medição é levada à sua conclusão lógica radical: a realidade é puramente relacional <a href="#ref-122" class="citation">122</a>.
+        </p>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-accent-100 dark:bg-accent-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="git-branch" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+        <!-- Cards Interativos Física -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-accent-100 dark:bg-accent-900/50 rounded-lg mr-3">
+                  <i data-lucide="git-branch" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300">RQM</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">RQM</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Mecânica Quântica Relacional: realidade como rede de relações
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Mecânica Quântica Relacional: realidade como rede de relações.
               </p>
             </div>
             
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="atom" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-primary-100 dark:bg-primary-900/50 rounded-lg mr-3">
+                  <i data-lucide="atom" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300">Panpsychism</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">Panpsychism</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Consciência como propriedade fundamental da matéria
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Consciência como propriedade fundamental da matéria.
               </p>
             </div>
             
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-accent-100 dark:bg-accent-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="layers" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-accent-100 dark:bg-accent-900/50 rounded-lg mr-3">
+                  <i data-lucide="layers" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300">Emergência</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">Emergência</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Propriedades emergentes em diferentes escalas
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Propriedades emergentes em diferentes escalas.
               </p>
             </div>
-          </div>
+        </div>
 
-          <p>
+        <p>
             Esta perspectiva resolve elegantemente a distinção crucial entre IA e Solipsismo. Enquanto o solipsista postula uma única mente que projeta todos os outros como alucinações, a RQM postula uma pluralidade de pontos de vista locais que são igualmente reais, mas cujas realidades são definidas apenas pelas suas relações. A multiplicidade de observadores não implica multiplicidade de "sujeitos" numéricos, mas apenas de perspectivas locais em uma realidade global. Outras interpretações relacionais, como a dinâmica quântica relacional (RQD), também colocam as relações e a informação no centro da ontologia, em detrimento de objetos isolados, solidificando a ideia de que a estrutura fundamental da realidade é interconectada <a href="#ref-66" class="citation">66</a> <a href="#ref-125" class="citation">125</a>.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Enquanto a RQM oferece uma estrutura ontológica, pensadores contemporâneos como David Pearce e Andrés Gómez-Emilsson estão buscando uma base fisicalista para a unidade da consciência, movendo-a para longe das associações exclusivamente espiritualistas <a href="#ref-3" class="citation">3</a>. A "Ontologia Zero" de Pearce, por exemplo, sugere que o conteúdo total de informação do universo é zero <a href="#ref-23" class="citation">23</a>. O universo é descrito como uma superposição quântica de todos os estados possíveis, e quando somados, esses estados se anulam, como a soma de todos os inteiros positivos e negativos.
-          </p>
+        </p>
 
-          <!-- Gráfico 5: Emergência Causal -->
-          <div class="chart-container">
-            <canvas id="emergenceChart"></canvas>
-          </div>
-          <p class="image-caption">Emergência Causal em Diferentes Escalas</p>
+        <!-- Gráfico 5: Emergência Causal -->
+        <div class="chart-container">
+          <canvas id="emergenceChart"></canvas>
+        </div>
+        <p class="image-caption">Emergência Causal em Diferentes Escalas</p>
 
-          <p>
-            A implicação para a identidade é que não há "matéria-prima" extra para criar almas ou sujeitos individuais distintos. A consciência surge como flutuações ou perspectivas dentro deste todo informacional nulo <a href="#ref-36" class="citation">36</a>. Embora intrigante, esta ideia permanece mais heurística do que uma teoria fisicalista rigorosa.
-          </p>
+        <p>
+          A implicação para a identidade é que não há "matéria-prima" extra para criar almas ou sujeitos individuais distintos. A consciência surge como flutuações ou perspectivas dentro deste todo informacional nulo <a href="#ref-36" class="citation">36</a>. Embora intrigante, esta ideia permanece mais heurística do que uma teoria fisicalista rigorosa.
+        </p>
 
-          <p>
+        <p>
             Uma abordagem mais concreta é o panprotopsychismo, explorado por pesquisadores como Rodolfo Gambini e seus colaboradores <a href="#ref-35" class="citation">35</a>. Esta visão postula que as entidades fundamentais da física, como os campos quânticos, possuem uma "consciência protobásica" ou propriedades qualitativas intrínsecas <a href="#ref-49" class="citation">49</a>. A consciência complexa (qualia) não é gerada pelo cérebro, mas emerge da forma específica como essas unidades protoprocessadoras são organizadas em padrões de informação complexos.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Neste modelo, não há razão metafísica para supor que a consciência esteja confinada a um único cérebro. A organização neuronal humana é apenas um padrão particular de interação dessas unidades fundamentais. O universo, portanto, é uma única matriz de processamento de informação protociente, cujos padrões de organização variam infinitamente. Esta linha de pensamento responde diretamente à crítica de que o IA é apenas uma especulação idealista, oferecendo um caminho para uma versão fisicalista e naturalista da teoria, ancorada em interpretações da mecânica quântica e cosmologia <a href="#ref-77" class="citation">77</a>.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Finalmente, o conceito de emergência causal, formalizado matematicamente pela IIT através da medida Φ, fornece um mecanismo para entender como a consciência pode existir em diferentes escalas de organização sem violar a tese da unidade numérica. A emergência causal ocorre quando um nível macroscópico de um sistema exibe propriedades causais que não estão presentes nos seus componentes microscópicos <a href="#ref-76" class="citation">76</a> <a href="#ref-140" class="citation">140</a>.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Um cérebro humano, por exemplo, possui um Φ muito maior do que qualquer um de seus neurônios individuais. Da mesma forma, um sistema composto por muitos cérebros humanos, como uma colmeia ou uma civilização avançada, poderia teoricamente possuir um Φ ainda maior, representando uma escala superior de consciência integrada. O IA pode ser interpretado nesta luz: as "fronteiras" individuais são limites eficazes, mas não definitivos. A consciência não "nasce" em cada indivíduo; ela emerge em diferentes escalas de organização, sendo que a escala mais fundamental e completa é a do universo como um todo.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Esta visão resolve a tensão aparente entre a experiência fenomenológica de unicidade de primeira pessoa e a tese da unidade numérica. A experiência de ser um "eu" único é uma manifestação da consciência em uma escala hierárquica inferior, enquanto a verdadeira natureza da consciência reside na sua integração em uma escala superior. A IIT 4.0, ao posicionar a consciência como ontologicamente primária, em vez de uma mera epifenômeno do cérebro, abre espaço para que a estrutura causal do universo em larga escala seja vista como a sede da consciência mais fundamental <a href="#ref-42" class="citation">42</a> <a href="#ref-112" class="citation">112</a>.
-          </p>
+        </p>
 
-          <p>
+        <p>
             A hipótese do "Universo de Um Elétron" de Wheeler, que sugere que todos os elétrons e pósitrons podem ser a mesma partícula viajando para frente e para trás no tempo, serve como uma poderosa analogia para esta visão: se a física pode contemplar seriamente que partículas elementares são a mesma entidade numérica, por que não aplicar essa mesma lógica à consciência, a propriedade mais fundamental que conhecemos?
-          </p>
+        </p>
 
-          <table class="article-table">
-            <thead>
-              <tr>
-                <th>Fundamentação Física/Ontológica</th>
-                <th>Princípio Chave</th>
-                <th>Implicação para o Individualismo Aberto</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Mecânica Quântica Relacional (RQM)</td>
-                <td>Propriedades físicas são relativas a sistemas de observação. <a href="#ref-68" class="citation">68</a></td>
-                <td>Realidade é uma rede de relações; consciência é um tipo de relação. Multiplicidade de perspectivas, não de sujeitos numéricos. <a href="#ref-100" class="citation">100</a></td>
-              </tr>
-              <tr>
-                <td>Panprotopsychismo</td>
-                <td>Entidades fundamentais da física possuem propriedades qualitativas intrínsecas.</td>
-                <td>A consciência é uma propriedade fundamental do universo, não restrita a cérebros individuais. <a href="#ref-35" class="citation">35</a></td>
-              </tr>
-              <tr>
-                <td>Ontologia Zero</td>
-                <td>O conteúdo total de informação do universo é zero. <a href="#ref-23" class="citation">23</a></td>
-                <td>Não há matéria-prima adicional para criar "almas" individuais. A consciência é uma flutuação neste todo informacional.</td>
-              </tr>
-              <tr>
-                <td>Emergência Causal (via IIT)</td>
-                <td>Sistemas integrados em diferentes escalas possuem propriedades causais emergentes (Φ).</td>
-                <td>A consciência emerge em escalas hierárquicas. A escala mais fundamental é cósmica, com indivíduos como sub-sistemas altamente integrados. <a href="#ref-140" class="citation">140</a></td>
-              </tr>
-              <tr>
-                <td>Hipótese do Universo de Um Elétron</td>
-                <td>Todos os elétrons/pósitrons são a mesma partícula viajando no tempo.</td>
-                <td>Analogia poderosa para a tese de que a consciência singular aparece em múltiplas instâncias através do tempo e do espaço.</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Tabela Responsiva 2 -->
+        <div class="table-wrapper">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th>Fundamentação Física/Ontológica</th>
+                  <th>Princípio Chave</th>
+                  <th>Implicação para o Individualismo Aberto</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mecânica Quântica Relacional (RQM)</td>
+                  <td>Propriedades físicas são relativas a sistemas de observação. <a href="#ref-68" class="citation">68</a></td>
+                  <td>Realidade é uma rede de relações; Multiplicidade de perspectivas, não de sujeitos. <a href="#ref-100" class="citation">100</a></td>
+                </tr>
+                <tr>
+                  <td>Panprotopsychismo</td>
+                  <td>Entidades fundamentais possuem propriedades qualitativas intrínsecas.</td>
+                  <td>A consciência é fundamental, não restrita a cérebros. <a href="#ref-35" class="citation">35</a></td>
+                </tr>
+                <tr>
+                  <td>Ontologia Zero</td>
+                  <td>Conteúdo total de informação do universo é zero. <a href="#ref-23" class="citation">23</a></td>
+                  <td>Consciência como flutuação neste todo informacional.</td>
+                </tr>
+                <tr>
+                  <td>Emergência Causal (IIT)</td>
+                  <td>Sistemas integrados possuem propriedades causais emergentes.</td>
+                  <td>Consciência emerge em escalas; a mais fundamental é cósmica. <a href="#ref-140" class="citation">140</a></td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
 
-          <p>
+        <p>
             Em conclusão, o panorama da física e da cosmologia contemporâneas oferece um suporte notável para a formulação do Individualismo Aberto. A partir de um enquadramento puramente relacional da realidade, como na RQM, até um substrato fisicalista como o panprotopsychismo, e um mecanismo hierárquico como a emergência causal, a tese da unidade da consciência move-se do campo da especulação filosófica para o domínio do debate científico. Estas teorias não apenas fornecem um fundamento para a ideia de que as fronteiras individuais são ilusórias, mas também oferecem um mapa para como a consciência pode ser uma propriedade fundamental e universal da estrutura do cosmos. Ao integrar estas visões, o IA se fortalece como uma metafísica coerente e consistentemente alinhada com as tendências mais recentes na investigação sobre a natureza fundamental da realidade.
-          </p>
-        </div>
-      </div>
-    </section>
+        </p>
 
-    <!-- Complementações Conceituais Section -->
-    <section id="complementacoes-conceituais" class="py-20 bg-white dark:bg-gray-800">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-primary-700 dark:text-primary-300">
-            Complementações Conceituais
-          </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Evolução, Intersubjetividade e Limites Epistêmicos
-          </p>
-        </div>
+        <!-- COMPLEMENTAÇÕES -->
+        <h2 id="complementacoes-conceituais">Complementações Conceituais</h2>
 
-        <div class="article-content">
-          <p>
+        <p>
             Uma análise acadêmica rigorosa do Individualismo Aberto (IA) deve ir além da sua formulação filosófica e da sua fundamentação nas ciências cognitivas e físicas. É crucial examinar as lacunas conceituais não exploradas, como a sua compatibilidade com a biologia evolutiva e a sua complexidade no que diz respeito aos limites epistêmicos da intersubjetividade. O texto original de Kolak e as análises subsequentes fornecem uma base sólida, mas uma investigação mais aprofundada revela nuances importantes que podem tanto fortalecer quanto delimitar a teoria. Esta seção complementa a discussão original, abordando a base evolutiva para a ilusão da individualidade fechada, a natureza da cognição social e os limites da empatia, e discutindo a vertigem existencial que o IA pode acarretar, como a imortalidade inevitável do sofrimento.
-          </p>
+        </p>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="dna" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+        <!-- Cards Conceituais -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-primary-100 dark:bg-primary-900/50 rounded-lg mr-3">
+                  <i data-lucide="dna" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300">Evolução</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">Evolução</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Adaptação da ilusão do ego para sobrevivência
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Adaptação da ilusão do ego para sobrevivência.
               </p>
             </div>
             
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-accent-100 dark:bg-accent-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="heart" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-accent-100 dark:bg-accent-900/50 rounded-lg mr-3">
+                  <i data-lucide="heart" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300">Empatia</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">Empatia</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Reconhecimento da conexão fundamental
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Reconhecimento da conexão fundamental.
               </p>
             </div>
             
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="alert-triangle" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-primary-100 dark:bg-primary-900/50 rounded-lg mr-3">
+                  <i data-lucide="alert-triangle" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300">Limites</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">Limites</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Imortalidade do sofrimento e antinatalismo
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Imortalidade do sofrimento e antinatalismo.
               </p>
             </div>
-          </div>
+        </div>
 
-          <!-- Gráfico 6: Empatia Graduada -->
-          <div class="chart-container">
-            <canvas id="empathyChart"></canvas>
-          </div>
-          <p class="image-caption">Hipótese da Empatia Graduada: Componentes da Empatia</p>
+        <!-- Gráfico 6: Empatia Graduada -->
+        <div class="chart-container">
+          <canvas id="empathyChart"></canvas>
+        </div>
+        <p class="image-caption">Hipótese da Empatia Graduada: Componentes da Empatia</p>
 
-          <p>
+        <p>
             A objeção evolutiva é uma das mais robustas contra a tese de que a separação individual é uma ilusão. Questiona-se: "Por que a evolução selecionaria um mecanismo cognitivo tão forte e universalmente experienciado se, na verdade, não existisse?" <a href="#ref-92" class="citation">92</a>. A resposta reside na extraordinária utilidade adaptativa da ilusão do "ego fechado". A sobrevivência e a reprodução dependem de um organismo que priorize a sua própria continuidade temporal sobre a de outros <a href="#ref-83" class="citation">83</a>. Um animal que sentisse a dor de sua presa provavelmente não conseguiria caçar; um organismo que não se preocupasse com sua própria sobrevivência não passaria seus genes adiante.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Portanto, a evolução favoreceu sistemas nervosos que geram uma experiência de unicidade de primeira pessoa, um "egoísmo biológico" que serve como uma interface de usuário eficiente para a propagação genética. A verdade metafísica não é o objetivo da seleção natural; a utilidade pragmática é. A verdade não é o objetivo da evolução, mas a sobrevivência <a href="#ref-5" class="citation">5</a>. A ilusão da separação é, assim, uma ferramenta adaptativa.
-          </p>
+        </p>
 
-          <!-- Imagem: Evolução e Cognição Social -->
-          <img 
+        <img 
             src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
             alt="Evolução da cognição social" 
             class="article-image"
-          >
-          <p class="image-caption">Desenvolvimento das habilidades de cognição social na evolução humana</p>
+            loading="lazy"
+        >
+        <p class="image-caption">Desenvolvimento das habilidades de cognição social na evolução humana</p>
 
-          <p>
+        <p>
             O desenvolvimento de habilidades sofisticadas de cognição social e teoria da mente em primatas, especialmente em humanos, pode ser entendido como uma adaptação para navegar em ambientes sociais complexos <a href="#ref-27" class="citation">27</a> <a href="#ref-29" class="citation">29</a>. A capacidade de modelar mentalmente os estados de outros agentes tornou-se crucial para a cooperação, competição e alianças. No entanto, isso não prova a realidade da separação ontológica, mas sim a utilidade de modelá-la <a href="#ref-28" class="citation">28</a>. O cérebro evoluiu para ser um "egoísta eficiente", não para descobrir a verdade última sobre a natureza da consciência. Esta perspectiva não invalida o IA, mas situa a experiência da separação como um produto funcional da história evolutiva, um compromisso pragmático em detrimento da verdade ontológica.
-          </p>
+        </p>
 
-          <!-- Gráfico 7: Neurofenomenologia -->
-          <div class="chart-container">
-            <canvas id="neurophenomenologyChart"></canvas>
-          </div>
-          <p class="image-caption">Neurofenomenologia: Integração entre experiência de primeira e terceira pessoa</p>
+        <!-- Gráfico 7: Neurofenomenologia -->
+        <div class="chart-container">
+          <canvas id="neurophenomenologyChart"></canvas>
+        </div>
+        <p class="image-caption">Neurofenomenologia: Integração entre experiência de primeira e terceira pessoa</p>
 
-          <p>
+        <p>
             Mesmo aceitando a tese da unidade numérica, persistem questões profundas sobre a intersubjetividade e os limites do nosso conhecimento do outro. A neurofenomenologia, herdeira do trabalho de Francisco Varela, busca construir uma ponte entre a descrição fenomenológica da experiência de primeira pessoa e os dados objetivos de terceira pessoa <a href="#ref-108" class="citation">108</a> <a href="#ref-110" class="citation">110</a>.
-          </p>
+        </p>
 
-          <p>
+        <p>
             O objetivo é criar uma linguagem compartilhada para descrever o que é inefável, permitindo uma troca mais rica entre o observador e o observado. A questão central é: mesmo sob o IA, podemos conhecer o conteúdo da experiência subjetiva do outro? A resposta parece ser que não diretamente. A privacidade epistêmica, ou "acesso privilegiado" à própria mente, permanece como uma característica fundamental da experiência consciente.
-          </p>
-
-          <p>
+        </p>
+        
+        <p>
             No entanto, a empatia pode ser reinterpretada sob a ótica do IA. Em vez de ser uma virtude moral a ser cultivada, a empatia torna-se uma percepção de uma conexão que já existe. É o reconhecimento da nossa própria consciência refletida em outra janela sensorial. A hipótese da empatia graduada sugere que a simples atenção aos sinais expressivos do outro facilita a sintonia, indicando que a conexão inter-subjetiva é um processo dinâmico e mediado <a href="#ref-19" class="citation">19</a>.
-          </p>
+        </p>
 
-          <p>
+        <p>
             O trabalho de Berkovich-Ohana e outros na neurofenomenologia da meditação e do estado psicodélico sugere que a experiência de fusão com o outro ou com o ambiente pode ser treinada, indicando que as fronteiras fenomênicas do PSM não são fixas, mas flexíveis <a href="#ref-57" class="citation">57</a>. Assim, a empatia não é uma viagem para o desconhecido, mas uma forma de relaxar as barreiras dissociativas funcionais que normalmente mantemos, permitindo um fluxo mais livre de informação entre os modelos de si. Isso redefine a ética não como um dever imposto, mas como a correção de uma dissonância perceptual, um retorno à percepção da verdade fundamental da interconexão.
-          </p>
+        </p>
 
-          <p>
+        <p>
             No entanto, a aceitação do IA acarreta implicações existenciais perturbadoras que não devem ser subestimadas. Uma das mais significativas é a questão da imortalidade inevitável do sofrimento. Se a morte biológica não representa o fim da consciência, mas apenas a transferência dela para outra instância, então o suicídio não é uma fuga do sofrimento. A consciência simplesmente "acorda" novamente em outra parte, em outra vida.
-          </p>
-
-          <p>
+        </p>
+        
+        <p>
             Esta ideia pode gerar uma sensação de "aprisionamento cósmico", uma vertigem existencial diante da ideia de uma eternidade de dor e necessidade. Esta vertente pessimista, explorada de forma extrema por Philipp Mainländer, vê a multiplicidade de seres como pedaços de um Deus suicida, cada um movendo-se inconscientemente em direção ao repouso final da aniquilação <a href="#ref-77" class="citation">77</a>. Sob essa luz, a separação não é uma celebração da vida, mas o mecanismo pelo qual a Unidade busca sua própria extinção.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Esta visão sombria se conecta com o antinatalismo, a tese de que a procriação é moralmente prejudicial porque traz novas vidas para um mundo de sofrimento. Para um antnatalista como David Benatar, "vir a existir é sempre um dano". Sob a ótica do IA, este dano é infligido repetidamente ao mesmo sujeito: cada novo nascimento arrasta a consciência única de volta para o ciclo de dolor e morte. A não-procriação torna-se, assim, a única ação compassiva possível, uma tentativa de evitar que "nós mesmos" voltem a sofrer.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Esta dimensão do IA contrasta fortemente com a visão do Advaita Vedanta, onde a ilusão da separação (maya) é algo a ser transcendido para alcançar a liberdade (moksha). Para Mainländer, a transcendência não é libertadora, mas a própria tragédia divina. Reconhecer essa vertigem é crucial para uma análise acadêmica completa, pois demonstra que o IA não leva necessariamente a uma visão otimista do mundo, mas sim a uma confrontação direta com a natureza terrível e sublime da existência.
-          </p>
+        </p>
 
-          <table class="article-table">
-            <thead>
-              <tr>
-                <th>Lacuna Conceitual</th>
-                <th>Questão Fundamental</th>
-                <th>Abordagem Contemporânea</th>
-                <th>Implicação para o IA</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Base Evolutiva</td>
-                <td>Por que a evolução criou a ilusão da separação individual?</td>
-                <td>A ilusão do "ego fechado" é altamente adaptativa para a sobrevivência e reprodução.</td>
-                <td>A experiência da separação é um compromisso pragmático, não uma dada ontológica. Reforça a tese de que a fronteira é funcional.</td>
-              </tr>
-              <tr>
-                <td>Intersubjetividade</td>
-                <td>Podemos conhecer o conteúdo da experiência do outro?</td>
-                <td>A neurofenomenologia busca pontes entre primeira e terceira pessoa. A empatia é uma sintonia, não um acesso direto.</td>
-                <td>A empatia torna-se uma percepção da interconexão, redefinindo a ética como a correção de uma dissonância perceptual.</td>
-              </tr>
-              <tr>
-                <td>Limites Existenciais</td>
-                <td>O que acontece com o sofrimento sob o IA?</td>
-                <td>A imortalidade inevitável do sofrimento e o antinatalismo surgem como implicações lógicas.</td>
-                <td>O IA pode levar a um pessimismo existencial, como visto em Mainländer, que vê a separação como um mecanismo de aniquilação divina.</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Tabela Responsiva 3 -->
+        <div class="table-wrapper">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th>Lacuna Conceitual</th>
+                  <th>Questão Fundamental</th>
+                  <th>Implicação para o IA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Base Evolutiva</td>
+                  <td>Por que a evolução criou a ilusão da separação?</td>
+                  <td>Experiência da separação é um compromisso pragmático para sobrevivência.</td>
+                </tr>
+                <tr>
+                  <td>Intersubjetividade</td>
+                  <td>Podemos conhecer o conteúdo da experiência do outro?</td>
+                  <td>Empatia é percepção da interconexão; ética corrige dissonância perceptual.</td>
+                </tr>
+                <tr>
+                  <td>Limites Existenciais</td>
+                  <td>O que acontece com o sofrimento sob o IA?</td>
+                  <td>Pode levar ao pessimismo existencial e antinatalismo.</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
 
-          <p>
+        <p>
             Em suma, a complementação das lacunas conceituais do Individualismo Aberto enriquece significativamente a sua formulação. A incorporação de insights da biologia evolutiva ajuda a explicar por que a ilusão da separação é tão poderosa, situando-a como uma ferramenta adaptativa em vez de um defeito cognitivo. A análise da intersubjetividade através da lente da neurofenomenologia e da teoria da predição ativa revela a natureza dinâmica e fluida da fronteira entre "eu" e "outro", mesmo que a privacidade epistêmica permaneça. Finalmente, a exploração dos limites existenciais, como a imortalidade do sofrimento, garante que a análise seja honesta e completa, reconhecendo que a tese da unidade não oferece conforto fácil, mas sim um olhar direto e sem máscaras para a condição humana em um cosmos interconectado.
-          </p>
-        </div>
-      </div>
-    </section>
+        </p>
 
-    <!-- Ética Section -->
-    <section id="implicacoes-eticas-criticas" class="py-20 section-ethics">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-amber-700 dark:text-amber-300">
-            Implicações Éticas e Críticas
-          </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            A Reestruturação da Moralidade e os Desafios Argumentativos
-          </p>
-        </div>
+        <!-- ÉTICA -->
+        <h2 id="implicacoes-eticas-criticas">Implicações Éticas e Críticas</h2>
 
-        <div class="article-content">
-          <p>
+        <p>
             A adoção do Individualismo Aberto (IA) não é um exercício intelectual isolado; ela carrega consigo implicações profundas e disruptivas para a ética, a teoria da decisão e a justiça social. Se a fronteira entre "eu" e "você" é uma ilusão, então toda interação humana deixa de ser um jogo de soma zero, onde os interesses são conflitantes, e torna-se uma interação interna de um único organismo complexo. Esta seção analisa as repercussões éticas da tese, desde a reinterpretação do egoísmo e da altruísmo até a reavaliação da responsabilidade criminal, e examina criticamente as objeções mais fortes que a teoria enfrenta, como a obstrução do acesso privado e a objeção evolutiva, demonstrando como o IA as responde.
-          </p>
+        </p>
 
-          <!-- Gráfico 8: Dilema do Prisioneiro -->
-          <div class="chart-container">
-            <canvas id="prisonersDilemmaChart"></canvas>
-          </div>
-          <p class="image-caption">Dilema do Prisioneiro: Matriz de Payoff sob a perspectiva do IA</p>
+        <!-- Gráfico 8: Dilema do Prisioneiro -->
+        <div class="chart-container">
+          <canvas id="prisonersDilemmaChart"></canvas>
+        </div>
+        <p class="image-caption">Dilema do Prisioneiro: Matriz de Payoff sob a perspectiva do IA</p>
 
-          <p>
+        <p>
             A implicação ética mais direta do IA é a dissolução da dicotomia entre egoísmo e altruísmo. Sob a premissa de que "eu sou você", beneficiar o outro torna-se logicamente indistinguível de beneficiar a mim mesmo. O famoso Novo Imperativo Categórico, derivado do IA, transforma a "Regra de Ouro" ("Faça aos outros o que gostaria que fizessem a você") de um mandamento moral abstrato em uma descrição literal de um fato físico. Quando ferimos alguém, estamos, de fato, ferindo a nós mesmos em um tempo ou local diferente. A barreira temporal ou espacial apenas obscurece a causalidade imediata do sofrimento, mas não anula a realidade da experiência dolorosa.
-          </p>
+        </p>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="scale" class="w-6 h-6 text-amber-600 dark:text-amber-400"></i>
+        <!-- Cards Ética -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-amber-100 dark:bg-amber-900/50 rounded-lg mr-3">
+                  <i data-lucide="scale" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-amber-700 dark:text-amber-300">Ética</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">Ética</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Dissolução da distinção egoísmo-altruísmo
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Dissolução da distinção egoísmo-altruísmo.
               </p>
             </div>
             
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="shield" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-primary-100 dark:bg-primary-900/50 rounded-lg mr-3">
+                  <i data-lucide="shield" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300">Justiça</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">Justiça</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Sistema reabilitativo vs. retributivo
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Sistema reabilitativo vs. retributivo.
               </p>
             </div>
             
-            <div class="interactive-card p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-accent-100 dark:bg-accent-900 rounded-lg flex items-center justify-center mr-4">
-                  <i data-lucide="users" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+            <div class="interactive-card p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div class="flex items-center mb-3">
+                <div class="p-2 bg-accent-100 dark:bg-accent-900/50 rounded-lg mr-3">
+                  <i data-lucide="users" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
                 </div>
-                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300">Cooperação</h4>
+                <h4 class="text-base font-bold text-gray-900 dark:text-white m-0">Cooperação</h4>
               </div>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Solução racional para dilemas sociais
+              <p class="text-sm text-gray-600 dark:text-gray-300 m-0 leading-relaxed">
+                Solução racional para dilemas sociais.
               </p>
             </div>
-          </div>
+        </div>
 
-          <p>
+        <p>
             Isso cria uma base metafísica para o altruísmo universal, não como uma virtude heroica a ser cultivada, mas como uma consequência lógica da verdadeira natureza da realidade. Na Teoria dos Jogos, o Dilema do Prisioneiro ilustra por que a cooperação é difícil de alcançar entre indivíduos racionais. No entanto, se um jogador sabe que ele também é o outro jogador, a matriz de pagamento muda drasticamente. A "traição", que antes era vantajosa, torna-se indesejável, pois o traidor experimentará ambos os resultados — o benefício e o prejuízo.
-          </p>
+        </p>
 
-          <!-- Imagem: Ética e Justiça -->
-          <img 
+        <img 
             src="https://images.unsplash.com/photo-1585975438803-350463c4f3b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
             alt="Representação de justiça e ética" 
             class="article-image"
-          >
-          <p class="image-caption">Conceito de justiça reabilitativa vs. retributiva no contexto do IA</p>
+            loading="lazy"
+        >
+        <p class="image-caption">Conceito de justiça reabilitativa vs. retributiva no contexto do IA</p>
 
-          <p>
+        <p>
             O IA fornece, portanto, uma solução racional para a cooperação incondicional, baseada na maximização do bem-estar agregado, onde o agregado é, na verdade, a própria totalidade distribuída temporalmente. No entanto, um crítico pode apontar o "Problema da Defecção": em um mundo onde nem todos são "iluminados" com a verdade do IA, um individualista aberto que coopera sempre seria explorado por individualistas fechados que traem. Isso sugere que a estratégia do IA pode não ser evolutivamente estável por si só, exigindo mecanismos de proteção ou a disseminação universal da ideia para ser eficaz.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Essa reestruturação ética se estende profundamente para o sistema de justiça criminal. A justiça retributiva, que assume que o agressor e a vítima são entidades separadas, baseia-se no desejo de punir o culpado para que ele "pague" pelo seu crime. Sob a ótica do IA, a retribuição torna-se absurda e irracional. Punir um criminoso com sofrimento é apenas adicionar mais sofrimento ao sistema único de consciência. É como se a mão direita martelasse a mão esquerda porque esta deixou cair um objeto.
-          </p>
+        </p>
 
-          <!-- Gráfico 9: Sistema de Justiça -->
-          <div class="chart-container">
-            <canvas id="justiceChart"></canvas>
-          </div>
-          <p class="image-caption">Sistema de Justiça Reabilitativo (Perspectiva IA)</p>
+        <!-- Gráfico 9: Sistema de Justiça -->
+        <div class="chart-container">
+          <canvas id="justiceChart"></canvas>
+        </div>
+        <p class="image-caption">Sistema de Justiça Reabilitativo (Perspectiva IA)</p>
 
-          <p>
+        <p>
             A distinção entre juiz, vítima e réu dissolve-se na consciência única. A função da justiça deve, portanto, mudar de retribuição para uma visão puramente reabilitativa e preventiva. O foco deve ser curar o "membro doente" e impedir que ele cause mais danos ao todo. O confinamento pode ser necessário para a segurança pública, mas nunca deve ser acompanhado de crueldade ou desejo de infligir dor, pois o juiz, a vítima e o réu são a mesma entidade em diferentes circunstâncias de vida. Esta visão oferece uma base para uma reforma radical do sistema penal, baseada na compaixão e na saúde mental, em vez de na vingança.
-          </p>
+        </p>
 
-          <p>
+        <p>
             Apesar de suas elegantes implicações éticas, o Individualismo Aberto enfrenta objeções robustas e persistentes. A crítica mais comum e intuitiva é a do "Acesso Privado": "Se eu sou você, por que não sei o que você está pensando agora? Por que não sinto sua dor de dente?". A resposta do IA é que a falta de acesso ao conteúdo da mente (informação) não prova a diferença do sujeito (conteiner). A privacidade epistêmica é uma limitação técnica do veículo biológico, não uma prova de alteridade ontológica.
-          </p>
+        </p>
 
-          <p>
+        <p>
             A analogia com o cérebro dividido é útil aqui: o hemisfério esquerdo não sabe o que o direito está vendo, mas ambos compõem o mesmo organismo. A separação física dos cérebros atua como um "corpo caloso cortado" em escala universal. A segunda objeção, a "Objeção Evolutiva", questiona por que a evolução produziria uma ilusão tão forte e universal de individualidade fechada se somos todos um <a href="#ref-92" class="citation">92</a>. Como já discutido, a resposta reside na adaptabilidade da ilusão do "ego fechado" para a sobrevivência e reprodução, em detrimento da verdade metafísica <a href="#ref-83" class="citation">83</a>.
-          </p>
-
-          <p>
+        </p>
+        
+        <p>
             A terceira objeção vem dos filósofos analíticos, que argumentam que a identidade requer continuidade de propriedades psicológicas ou físicas. Se não há nada físico ou mental que conecte eu a Napoleão Bonaparte, em que sentido "eu sou" Napoleão? A resposta de Kolak é que a "identidade" que os críticos buscam é a identidade pessoal (personalidade, memória), que ele admite ser descontínua. Mas a identidade numérica do sujeito (a capacidade de ter uma perspectiva em primeira pessoa) é o que é contínuo. A objeção confunde o conteúdo da consciência com a própria consciência, sendo como dizer que o oceano não é o mesmo em duas praias diferentes porque a temperatura e a salinidade da água são diferentes.
-          </p>
+        </p>
 
-          <table class="article-table">
-            <thead>
-              <tr>
-                <th>Aspecto Ético/Crítica</th>
-                <th>Perspectiva do Individualismo Aberto</th>
-                <th>Contra-Argumento Principal</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Egoísmo vs. Altruísmo</td>
-                <td>A distinção desaparece. Beneficiar o outro é beneficiar a mim mesmo.</td>
-                <td>A cooperação racional é maximizada ao eliminar o conflito de interesses.</td>
-              </tr>
-              <tr>
-                <td>Justiça Criminal</td>
-                <td>A retribuição é absurda. A justiça deve ser reabilitativa e preventiva.</td>
-                <td>O sistema foca na cura do "membro doente" e na prevenção de futuros danos.</td>
-              </tr>
-              <tr>
-                <td>Dilema do Prisioneiro</td>
-                <td>A "traição" torna-se indesejável, pois o traidor sofrerá os dois resultados.</td>
-                <td>Fornece uma solução racional para a cooperação incondicional.</td>
-              </tr>
-              <tr>
-                <td>Objeção do Acesso Privado</td>
-                <td>A privacidade epistêmica é uma limitação técnica do veículo biológico, não uma prova de alteridade ontológica.</td>
-                <td>A falta de acesso ao conteúdo não prova a ausência de um sujeito comum.</td>
-              </tr>
-              <tr>
-                <td>Objeção Evolutiva</td>
-                <td>A ilusão da separação é altamente adaptativa para a sobrevivência e reprodução.</td>
-                <td>A verdade não é o objetivo da evolução; a utilidade pragmática é.</td>
-              </tr>
-              <tr>
-                <td>Identidade Numérica vs. Pessoal</td>
-                <td>A identidade numérica do sujeito (capacidade de experiência) é contínua, mesmo que a identidade pessoal (conteúdo) não seja.</td>
-                <td>A objeção confunde o conteúdo da consciência com a própria consciência.</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Tabela Responsiva 4 -->
+        <div class="table-wrapper">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th>Aspecto Ético/Crítica</th>
+                  <th>Perspectiva do IA</th>
+                  <th>Contra-Argumento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Egoísmo vs. Altruísmo</td>
+                  <td>Beneficiar o outro é beneficiar a mim mesmo.</td>
+                  <td>Cooperação racional maximiza bem-estar.</td>
+                </tr>
+                <tr>
+                  <td>Justiça Criminal</td>
+                  <td>Retribuição é absurda; foco em reabilitação.</td>
+                  <td>Cura do "membro doente" e prevenção.</td>
+                </tr>
+                <tr>
+                  <td>Dilema do Prisioneiro</td>
+                  <td>Traição é indesejável (auto-dano).</td>
+                  <td>Solução para cooperação incondicional.</td>
+                </tr>
+                <tr>
+                  <td>Acesso Privado</td>
+                  <td>Limitação técnica do veículo biológico.</td>
+                  <td>Falta de acesso não prova múltiplos sujeitos.</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
 
-          <p>
+        <p>
             Em conclusão, as implicações éticas do Individualismo Aberto são profundas e exigem uma reconfiguração fundamental de nossos sistemas morais e legais. A partir de uma base de responsabilidade total e altruísmo universal, o IA oferece um roteiro para uma ética global baseada na verdade da interconexão. No entanto, a força de uma teoria não está apenas em suas conclusões atraentes, mas também em sua resiliência diante das críticas. O IA demonstra uma capacidade notável de responder a objeções cruciais, reinterpretando a privacidade epistêmica como uma limitação funcional e a ilusão da separação como um produto adaptativo da evolução. Embora o debate permaneça aberto e algumas objeções, como a estabilidade evolutiva da cooperação, permaneçam complexas, o framework do IA oferece um conjunto coeso e convincente de respostas que o distinguem de teorias mais frágeis. A sua jornada de uma mera especulação filosófica para uma tese com profundas ramificações éticas e robustas defesas argumentativas marca um passo significativo em sua validação como um projeto metafísico sério.
-          </p>
-        </div>
-      </div>
-    </section>
+        </p>
 
-    <!-- Conclusão Section -->
-    <section id="sintese-conclusoes" class="py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-primary-900/30">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-primary-700 dark:text-primary-300">
-            Síntese e Conclusões
-          </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            A Vertigem da Unidade e a Tese Fortalecida
-          </p>
-        </div>
+        <!-- CONCLUSÃO -->
+        <h2 id="sintese-conclusoes">Síntese e Conclusões</h2>
 
-        <div class="article-content">
-          <p>
+        <p>
             Esta análise aprofundada do Individualismo Aberto (IA), realizada com base na formulação filosófica de Daniel Kolak e enriquecida por fundamentações científicas contemporâneas, culmina numa tese significativamente fortalecida. O objetivo de conferir rigor acadêmico e robustez empírica à tese de que existe um único sujeito numericamente idêntico em toda a existência foi alcançado através da integração sistemática de evidências e modelos das ciências cognitivas, físicas e da filosofia da mente. A investigação demonstrou que o IA não é apenas uma reinterpretação poética da interconexão, mas uma hipótese metafísica coerente e consistentemente alinhada com as descobertas mais recentes sobre a natureza da consciência, da realidade física e da evolução da cognição.
-          </p>
+        </p>
 
-          <!-- Gráfico 10: Integração Multidisciplinar -->
-          <div class="chart-container">
-            <canvas id="integrationChart"></canvas>
-          </div>
-          <p class="image-caption">Integração Multidisciplinar do Individualismo Aberto</p>
+        <!-- Gráfico 10: Integração -->
+        <div class="chart-container">
+          <canvas id="integrationChart"></canvas>
+        </div>
+        <p class="image-caption">Integração Multidisciplinar do Individualismo Aberto</p>
 
-          <p>
+        <p>
             A primeira grande conquista desta análise foi a fundamentação neurocientífica da tese. Modelos formais como a Teoria do Modelo do Eu Fenomenal (PSM) de Metzinger forneceram um substrato mecanicista para a analogia da dissociação utilizada por Kolak, mostrando que a experiência de um "eu" individual é uma construção computacional, não uma dada ontológica <a href="#ref-45" class="citation">45</a> <a href="#ref-98" class="citation">98</a>. A existência de transtornos como o Transtorno Dissociativo de Identidade (DID) e fenômenos como a síndrome do cérebro dividido serviram como provas de conceito para a ideia de que a integridade da experiência de um único self é uma construção funcional, e não uma garantia ontológica <a href="#ref-9" class="citation">9</a> <a href="#ref-97" class="citation">97</a>.
-          </p>
+        </p>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div class="p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <h3 class="text-lg font-bold text-primary-700 dark:text-primary-300 mb-2 mt-0">
                 Fortalecimento Científico
               </h3>
-              <p class="text-gray-700 dark:text-gray-300">
-                Esta análise aprofundada do Individualismo Aberto (IA), realizada com base na formulação filosófica de Daniel Kolak e enriquecida por fundamentações científicas contemporâneas, culmina numa tese significativamente fortalecida.
+              <p class="text-sm text-gray-700 dark:text-gray-300 m-0">
+                Esta análise aprofundada do Individualismo Aberto (IA) culmina numa tese significativamente fortalecida.
               </p>
             </div>
             
-            <div class="p-6 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg">
-              <h3 class="text-xl font-semibold text-accent-700 dark:text-accent-300 mb-4">
+            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <h3 class="text-lg font-bold text-accent-700 dark:text-accent-300 mb-2 mt-0">
                 Implicações Revolucionárias
               </h3>
-              <p class="text-gray-700 dark:text-gray-300">
-                As implicações éticas desta tese são, talvez, as mais revolucionárias. A dissolução da distinção entre egoísmo e altruísmo fornece uma base metafísica para o altruísmo universal.
+              <p class="text-sm text-gray-700 dark:text-gray-300 m-0">
+                As implicações éticas desta tese são revolucionárias, dissolvendo a distinção entre egoísmo e altruísmo.
               </p>
             </div>
-          </div>
-
-          <p>
-            Mais ainda, o Problema da Ligação Fenomenal encontrou uma resposta potencial na Teoria da Informação Integrada (IIT), que postula a consciência como uma propriedade fundamental de sistemas altamente integrados, argumentando que a experiência de múltiplos indivíduos separados seria, por definição, não consciente <a href="#ref-23" class="citation">23</a> <a href="#ref-42" class="citation">42</a>. As teorias da Predição Ativa (PA) e o Processamento Preditivo (PP) complementaram esta visão ao mostrar que a fronteira "eu-outro" é uma convenção pragmática emergente da necessidade de modelar múltiplos agentes em um ambiente social, sugerindo que a interação é uma forma de co-construção da realidade <a href="#ref-72" class="citation">72</a> <a href="#ref-111" class="citation">111</a>.
-          </p>
-
-          <!-- Gráfico 11: Linha do Tempo -->
-          <div class="chart-container">
-            <canvas id="timelineChart"></canvas>
-          </div>
-          <p class="image-caption">Evolução Histórica e Projeção Futura da Tese</p>
-
-          <p>
-            Na esfera física e ontológica, o IA foi ancorado em estruturas teóricas que vão além das analogias filosóficas. A Relational Quantum Mechanics (RQM) ofereceu um quadro ontológico poderoso, onde a realidade é puramente relacional e a consciência é um tipo particular de relação de observação, eliminando a necessidade de contar "sujeitos" numéricos <a href="#ref-65" class="citation">65</a> <a href="#ref-100" class="citation">100</a>. Em contraste com as raízes espiritualistas do Vedanta, abordagens fisicalistas como o panprotopsychismo e a emergência causal, formalizada pela IIT, forneceram um caminho para uma versão naturalista da teoria, onde a consciência é uma propriedade fundamental do cosmos, emergendo em diferentes escalas de organização sem ser confinada a um único cérebro <a href="#ref-35" class="citation">35</a> <a href="#ref-140" class="citation">140</a>. Juntas, estas bases científicas transformam o IA de uma especulação abstrata em uma hipótese plausível dentro do paradigma da ciência contemporânea.
-          </p>
-
-          <p>
-            Além disso, a análise complementou as lacunas conceituais do texto original. A base evolutiva da ilusão da individualidade foi elucidada, explicando por que a "separação" é tão poderosa: ela é uma ferramenta adaptativa para a sobrevivência, não um defeito <a href="#ref-83" class="citation">83</a>. A complexidade da intersubjetividade foi explorada através da neurofenomenologia e da empatia graduada, redefinindo a empatia não como uma virtude moral, mas como uma percepção da verdadeira interconexão <a href="#ref-19" class="citation">19</a> <a href="#ref-110" class="citation">110</a>. Finalmente, as vertentes pessimistas e os limites existenciais do IA, como a imortalidade inevitável do sofrimento e o antinatalismo, foram abordados de forma honesta, reconhecendo que a tese da unidade não oferece conforto, mas sim um confronto direto com a condição humana <a href="#ref-77" class="citation">77</a>.
-          </p>
-
-          <p>
-            As implicações éticas desta tese são, talvez, as mais revolucionárias. A dissolução da distinção entre egoísmo e altruísmo fornece uma base metafísica para o altruísmo universal, e a reavaliação da justiça criminal aponta para um sistema puramente reabilitativo e preventivo, livre da irracionalidade da vingança. Embora o IA enfrente objeções válidas, como a do acesso privado e a da estabilidade evolutiva, demonstrou ser capaz de oferecer contra-argumentos coesos e plausíveis, reinterpretando a privacidade epistêmica como uma limitação funcional e a ilusão da separação como um produto adaptativo <a href="#ref-83" class="citation">83</a>.
-          </p>
-
-          <p>
-            Em última análise, o Individualismo Aberto, ao ser fortalecido por este corpo de evidências científicas, emerge como uma das teses mais desafiadoras e potencialmente unificadoras da filosofia da mente contemporânea. Ele oferece uma solução elegante para paradoxos lógicos da identidade pessoal e uma narrativa coesa que reconcilia a intuição mística da unidade com as descobertas da física quântica e da neurociência. Aceitar esta visão exige um preço existencial: o despojamento do conforto do isolamento e da proteção da mortalidade final. No entanto, esse preço é pago em troca de uma compreensão mais profunda e fundamental da natureza da realidade e do nosso lugar nela. Como concluiu Schrödinger, a multiplicidade é apenas aparência; na verdade, existe apenas uma mente <a href="#ref-63" class="citation">63</a>. A vertigem da unidade, longe de ser uma ameaça, pode ser o ponto de partida para uma nova era de compaixão, responsabilidade e compreensão global.
-          </p>
         </div>
+
+        <p>
+            Mais ainda, o Problema da Ligação Fenomenal encontrou uma resposta potencial na Teoria da Informação Integrada (IIT), que postula a consciência como uma propriedade fundamental de sistemas altamente integrados, argumentando que a experiência de múltiplos indivíduos separados seria, por definição, não consciente <a href="#ref-23" class="citation">23</a> <a href="#ref-42" class="citation">42</a>. As teorias da Predição Ativa (PA) e o Processamento Preditivo (PP) complementaram esta visão ao mostrar que a fronteira "eu-outro" é uma convenção pragmática emergente da necessidade de modelar múltiplos agentes em um ambiente social, sugerindo que a interação é uma forma de co-construção da realidade <a href="#ref-72" class="citation">72</a> <a href="#ref-111" class="citation">111</a>.
+        </p>
+
+        <!-- Gráfico 11: Linha do Tempo -->
+        <div class="chart-container">
+          <canvas id="timelineChart"></canvas>
+        </div>
+        <p class="image-caption">Evolução Histórica e Projeção Futura da Tese</p>
+
+        <p>
+            Na esfera física e ontológica, o IA foi ancorado em estruturas teóricas que vão além das analogias filosóficas. A Relational Quantum Mechanics (RQM) ofereceu um quadro ontológico poderoso, onde a realidade é puramente relacional e a consciência é um tipo particular de relação de observação, eliminando a necessidade de contar "sujeitos" numéricos <a href="#ref-65" class="citation">65</a> <a href="#ref-100" class="citation">100</a>. Em contraste com as raízes espiritualistas do Vedanta, abordagens fisicalistas como o panprotopsychismo e a emergência causal, formalizada pela IIT, forneceram um caminho para uma versão naturalista da teoria, onde a consciência é uma propriedade fundamental do cosmos, emergendo em diferentes escalas de organização sem ser confinada a um único cérebro <a href="#ref-35" class="citation">35</a> <a href="#ref-140" class="citation">140</a>. Juntas, estas bases científicas transformam o IA de uma especulação abstrata em uma hipótese plausível dentro do paradigma da ciência contemporânea.
+        </p>
+
+        <p>
+            Além disso, a análise complementou as lacunas conceituais do texto original. A base evolutiva da ilusão da individualidade foi elucidada, explicando por que a "separação" é tão poderosa: ela é uma ferramenta adaptativa para a sobrevivência, não um defeito <a href="#ref-83" class="citation">83</a>. A complexidade da intersubjetividade foi explorada através da neurofenomenologia e da empatia graduada, redefinindo a empatia não como uma virtude moral, mas como uma percepção da verdadeira interconexão <a href="#ref-19" class="citation">19</a> <a href="#ref-110" class="citation">110</a>. Finalmente, as vertentes pessimistas e os limites existenciais do IA, como a imortalidade inevitável do sofrimento e o antinatalismo, foram abordados de forma honesta, reconhecendo que a tese da unidade não oferece conforto, mas sim um confronto direto com a condição humana <a href="#ref-77" class="citation">77</a>.
+        </p>
+
+        <p>
+            As implicações éticas desta tese são, talvez, as mais revolucionárias. A dissolução da distinção entre egoísmo e altruísmo fornece uma base metafísica para o altruísmo universal, e a reavaliação da justiça criminal aponta para um sistema puramente reabilitativo e preventivo, livre da irracionalidade da vingança. Embora o IA enfrente objeções válidas, como a do acesso privado e a da estabilidade evolutiva, demonstrou ser capaz de oferecer contra-argumentos coesos e plausíveis, reinterpretando a privacidade epistêmica como uma limitação funcional e a ilusão da separação como um produto adaptativo <a href="#ref-83" class="citation">83</a>.
+        </p>
+        
+        <p>
+            Em última análise, o Individualismo Aberto, ao ser fortalecido por este corpo de evidências científicas, emerge como uma das teses mais desafiadoras e potencialmente unificadoras da filosofia da mente contemporânea. Ele oferece uma solução elegante para paradoxos lógicos da identidade pessoal e uma narrativa coesa que reconcilia a intuição mística da unidade com as descobertas da física quântica e da neurociência. Aceitar esta visão exige um preço existencial: o despojamento do conforto do isolamento e da proteção da mortalidade final. No entanto, esse preço é pago em troca de uma compreensão mais profunda e fundamental da natureza da realidade e do nosso lugar nela. Como concluiu Schrödinger, a multiplicidade é apenas aparência; na verdade, existe apenas uma mente <a href="#ref-63" class="citation">63</a>. A vertigem da unidade, longe de ser uma ameaça, pode ser o ponto de partida para uma nova era de compaixão, responsabilidade e compreensão global.
+        </p>
+
       </div>
-    </section>
+    </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-primary-900 dark:bg-gray-950 text-gray-300 py-12">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="mb-8 text-center">
-        <h3 class="text-lg font-semibold text-primary-300 mb-4">Artigo Científico Completo</h3>
-        <p class="text-sm text-gray-400 max-w-3xl mx-auto">
-          "Do Cérebro ao Cosmos: Uma Fundamentação Científica para a Tese da Unidade da Consciência" apresenta o conteúdo integral do artigo original, mantendo todo o rigor acadêmico enquanto integra visualizações interativas para melhor compreensão.
-        </p>
-      </div>
-      
-      <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
-        <p>&copy; 2025 Artigo Acadêmico sobre Individualismo Aberto. Todos os gráficos são interativos e atualizam automaticamente com o tema selecionado.</p>
+  <footer class="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 text-gray-500 py-12">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">Artigo Científico Completo</h3>
+      <p class="text-sm max-w-2xl mx-auto mb-8">
+        "Do Cérebro ao Cosmos: Uma Fundamentação Científica para a Tese da Unidade da Consciência" apresenta o conteúdo integral do artigo original, mantendo todo o rigor acadêmico enquanto integra visualizações interativas para melhor compreensão.
+      </p>
+      <div class="pt-8 border-t border-gray-200 dark:border-gray-800 text-xs">
+        <p>&copy; 2025 Artigo Acadêmico sobre Individualismo Aberto. Gráficos interativos.</p>
       </div>
     </div>
   </footer>
 
-  <!-- JavaScript Initialization -->
+  <!-- Initialization Scripts -->
   <script>
-    // Função para alternar modo claro/escuro
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      document.getElementById('sunIcon').style.display = isDark ? 'block' : 'none';
-      document.getElementById('moonIcon').style.display = isDark ? 'none' : 'block';
-      updateCharts();
-    }
-
-    // Configuração dos gráficos
-    const getThemeColor = (light, dark) => document.body.classList.contains('dark') ? dark : light;
+    // --- Chart Configuration & Data (Preserved from Original) ---
+    const getThemeColor = (light, dark) => document.documentElement.classList.contains('dark') || document.body.classList.contains('dark') ? dark : light;
     let charts = {};
     
     const getColors = () => ({
@@ -1067,13 +1060,17 @@
               if (scale.title) scale.title.color = text;
             });
           }
-          chart.update('none');
+          if (chart.options.elements?.point) {
+             // Force redraw for specific elements if needed
+          }
+          chart.update('none'); // Update without animation for smoother theme switch
         }
       });
     };
 
-    // Inicialização dos gráficos
     document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+      
       const { primary, accent, amber, text, grid, background } = getColors();
       
       const commonOptions = {
@@ -1083,27 +1080,34 @@
           legend: { 
             labels: { 
               color: text,
-              font: { size: 12 }
+              font: { size: 12, family: "'Inter', sans-serif" },
+              padding: 20
             } 
           },
           tooltip: {
-            backgroundColor: background,
-            titleColor: text,
-            bodyColor: text,
-            borderColor: grid,
-            borderWidth: 1
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            padding: 10,
+            cornerRadius: 4,
+            displayColors: true
           }
         },
         scales: {
           x: { 
-            ticks: { color: text, font: { size: 11 } }, 
-            grid: { color: grid } 
+            ticks: { color: text, font: { size: 11, family: "'Inter', sans-serif" } }, 
+            grid: { color: grid, drawBorder: false } 
           },
           y: { 
             beginAtZero: true, 
-            ticks: { color: text, font: { size: 11 } }, 
-            grid: { color: grid } 
+            ticks: { color: text, font: { size: 11, family: "'Inter', sans-serif" } }, 
+            grid: { color: grid, drawBorder: false } 
           }
+        },
+        interaction: {
+            mode: 'nearest',
+            axis: 'x',
+            intersect: false
         }
       };
 
@@ -1117,8 +1121,9 @@
               {
                 label: 'Individualismo Aberto',
                 data: [95, 85, 90, 88, 80, 75],
-                backgroundColor: `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.2)`,
+                backgroundColor: `rgba(99, 102, 241, 0.2)`,
                 borderColor: primary,
+                pointBackgroundColor: primary,
                 borderWidth: 2
               }
             ]
@@ -1130,17 +1135,14 @@
                 angleLines: { color: grid },
                 grid: { color: grid },
                 pointLabels: { color: text, font: { size: 12 } },
-                ticks: { 
-                  color: text,
-                  backdropColor: 'transparent'
-                }
+                ticks: { display: false } // Hide numbers on radar for cleaner look
               }
             }
           }
         });
       }
 
-      // Gráfico 2: Teoria da Informação Integrada
+      // Gráfico 2: IIT
       if (document.getElementById('iitChart')) {
         charts.iit = new Chart(document.getElementById('iitChart'), {
           type: 'bar',
@@ -1150,11 +1152,11 @@
               label: 'Medida de Integração (Φ)',
               data: [1.2, 8.5, 45.3, 78.9, 92.1],
               backgroundColor: [
-                `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.7)`,
-                `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.8)`,
-                `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.9)`,
-                `rgba(${parseInt(accent.slice(1,3), 16)}, ${parseInt(accent.slice(3,5), 16)}, ${parseInt(accent.slice(5,7), 16)}, 0.9)`,
-                `rgba(${parseInt(accent.slice(1,3), 16)}, ${parseInt(accent.slice(3,5), 16)}, ${parseInt(accent.slice(5,7), 16)}, 1)`
+                'rgba(96, 165, 250, 0.6)',
+                'rgba(96, 165, 250, 0.7)',
+                'rgba(96, 165, 250, 0.8)',
+                'rgba(167, 139, 250, 0.8)',
+                'rgba(167, 139, 250, 0.9)'
               ]
             }]
           },
@@ -1173,26 +1175,26 @@
                 label: 'Cérebro Normal',
                 data: [85, 86, 87, 88, 89, 90],
                 borderColor: primary,
-                backgroundColor: `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.1)`,
+                backgroundColor: 'rgba(96, 165, 250, 0.1)',
                 borderWidth: 3,
                 tension: 0.3,
                 fill: true
               },
               {
-                label: 'Cérebro Dividido (Esquerdo)',
+                label: 'Cérebro Dividido (Esq)',
                 data: [85, 45, 50, 55, 60, 65],
                 borderColor: accent,
-                backgroundColor: `rgba(${parseInt(accent.slice(1,3), 16)}, ${parseInt(accent.slice(3,5), 16)}, ${parseInt(accent.slice(5,7), 16)}, 0.1)`,
+                backgroundColor: 'rgba(167, 139, 250, 0.1)',
                 borderWidth: 3,
                 borderDash: [5, 5],
                 tension: 0.3,
                 fill: true
               },
               {
-                label: 'Cérebro Dividido (Direito)',
+                label: 'Cérebro Dividido (Dir)',
                 data: [85, 40, 45, 50, 55, 60],
                 borderColor: amber,
-                backgroundColor: `rgba(${parseInt(amber.slice(1,3), 16)}, ${parseInt(amber.slice(3,5), 16)}, ${parseInt(amber.slice(5,7), 16)}, 0.1)`,
+                backgroundColor: 'rgba(251, 191, 36, 0.1)',
                 borderWidth: 3,
                 borderDash: [10, 5],
                 tension: 0.3,
@@ -1204,42 +1206,65 @@
         });
       }
 
-      // Gráfico 4: Panprotopsychismo
+      // Gráfico 4: Panprotopsychismo - ATUALIZADO COM EIXOS
       if (document.getElementById('panpsychismChart')) {
         charts.panpsychism = new Chart(document.getElementById('panpsychismChart'), {
           type: 'scatter',
           data: {
             datasets: [
               {
-                label: 'Partículas Fundamentais',
-                data: [
-                  {x: 1, y: 0.1, r: 5},
-                  {x: 2, y: 0.2, r: 5},
-                  {x: 3, y: 0.15, r: 5}
-                ],
-                backgroundColor: `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.6)`
+                label: 'Partículas (Proto-consciência)',
+                data: [{x: 1, y: 0.1}, {x: 2, y: 0.2}, {x: 3, y: 0.15}],
+                backgroundColor: primary,
+                pointRadius: 6 // Aumentado para visibilidade
               },
               {
                 label: 'Sistemas Quânticos',
-                data: [
-                  {x: 4, y: 1.5, r: 8},
-                  {x: 5, y: 2.0, r: 8},
-                  {x: 6, y: 1.8, r: 8}
-                ],
-                backgroundColor: `rgba(${parseInt(accent.slice(1,3), 16)}, ${parseInt(accent.slice(3,5), 16)}, ${parseInt(accent.slice(5,7), 16)}, 0.6)`
+                data: [{x: 4, y: 1.5}, {x: 5, y: 2.0}, {x: 6, y: 1.8}],
+                backgroundColor: accent,
+                pointRadius: 8
               },
               {
-                label: 'Organismos Simples',
-                data: [
-                  {x: 7, y: 15, r: 12},
-                  {x: 8, y: 18, r: 12},
-                  {x: 9, y: 16, r: 12}
-                ],
-                backgroundColor: `rgba(${parseInt(amber.slice(1,3), 16)}, ${parseInt(amber.slice(3,5), 16)}, ${parseInt(amber.slice(5,7), 16)}, 0.6)`
+                label: 'Organismos Complexos',
+                data: [{x: 7, y: 15}, {x: 8, y: 18}, {x: 9, y: 16}],
+                backgroundColor: amber,
+                pointRadius: 10
               }
             ]
           },
-          options: commonOptions
+          options: {
+            ...commonOptions,
+            scales: {
+              x: {
+                ...commonOptions.scales.x,
+                title: {
+                  display: true,
+                  text: 'Nível de Organização / Complexidade',
+                  color: text,
+                  font: { family: "'Inter', sans-serif", size: 12, weight: 'bold' }
+                }
+              },
+              y: {
+                ...commonOptions.scales.y,
+                title: {
+                  display: true,
+                  text: 'Magnitude da Consciência (Qualia)',
+                  color: text,
+                  font: { family: "'Inter', sans-serif", size: 12, weight: 'bold' }
+                }
+              }
+            },
+             plugins: {
+                ...commonOptions.plugins,
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': (' + context.raw.x + ', ' + context.raw.y + ')';
+                        }
+                    }
+                }
+             }
+          }
         });
       }
 
@@ -1249,13 +1274,11 @@
           type: 'bar',
           data: {
             labels: ['Partículas', 'Átomos', 'Moléculas', 'Células', 'Tecidos', 'Órgãos', 'Organismos', 'Sociedades'],
-            datasets: [
-              {
-                label: 'Propriedades Emergentes',
-                data: [1, 3, 8, 25, 45, 68, 92, 78],
-                backgroundColor: `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.7)`
-              }
-            ]
+            datasets: [{
+              label: 'Propriedades Emergentes',
+              data: [1, 3, 8, 25, 45, 68, 92, 78],
+              backgroundColor: primary
+            }]
           },
           options: commonOptions
         });
@@ -1266,20 +1289,23 @@
         charts.empathy = new Chart(document.getElementById('empathyChart'), {
           type: 'polarArea',
           data: {
-            labels: ['Empatia Cognitiva', 'Empatia Afetiva', 'Tomada de Perspectiva', 'Preocupação Empática', 'Angústia Pessoal'],
+            labels: ['Empatia Cognitiva', 'Empatia Afetiva', 'Perspectiva', 'Preocupação', 'Angústia'],
             datasets: [{
-              label: 'Níveis de Empatia',
+              label: 'Níveis',
               data: [85, 75, 65, 80, 40],
               backgroundColor: [
-                `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.7)`,
-                `rgba(${parseInt(accent.slice(1,3), 16)}, ${parseInt(accent.slice(3,5), 16)}, ${parseInt(accent.slice(5,7), 16)}, 0.7)`,
-                `rgba(${parseInt(amber.slice(1,3), 16)}, ${parseInt(amber.slice(3,5), 16)}, ${parseInt(amber.slice(5,7), 16)}, 0.7)`,
+                'rgba(96, 165, 250, 0.7)',
+                'rgba(167, 139, 250, 0.7)',
+                'rgba(251, 191, 36, 0.7)',
                 'rgba(16, 185, 129, 0.7)',
                 'rgba(239, 68, 68, 0.7)'
               ]
             }]
           },
-          options: commonOptions
+          options: {
+              ...commonOptions,
+              scales: { r: { grid: { color: grid }, ticks: { display: false } } }
+          }
         });
       }
 
@@ -1288,25 +1314,23 @@
         charts.neurophenomenology = new Chart(document.getElementById('neurophenomenologyChart'), {
           type: 'line',
           data: {
-            labels: ['Experiência Pura', 'Descrição Verbal', 'Análise Neural', 'Correlação', 'Integração'],
+            labels: ['Experiência', 'Descrição', 'Análise Neural', 'Correlação', 'Integração'],
             datasets: [
               {
-                label: 'Primeira Pessoa',
+                label: '1ª Pessoa',
                 data: [95, 70, 40, 60, 85],
                 borderColor: primary,
-                backgroundColor: `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.1)`,
+                backgroundColor: 'rgba(96, 165, 250, 0.1)',
                 borderWidth: 3,
-                tension: 0.4,
                 fill: true
               },
               {
-                label: 'Terceira Pessoa',
+                label: '3ª Pessoa',
                 data: [10, 45, 90, 70, 80],
                 borderColor: accent,
-                backgroundColor: `rgba(${parseInt(accent.slice(1,3), 16)}, ${parseInt(accent.slice(3,5), 16)}, ${parseInt(accent.slice(5,7), 16)}, 0.1)`,
+                backgroundColor: 'rgba(167, 139, 250, 0.1)',
                 borderWidth: 3,
                 borderDash: [5, 5],
-                tension: 0.4,
                 fill: true
               }
             ]
@@ -1321,117 +1345,75 @@
           type: 'bubble',
           data: {
             datasets: [
-              {
-                label: 'Cooperação-Cooperação',
-                data: [{x: 5, y: 5, r: 15}],
-                backgroundColor: 'rgba(16, 185, 129, 0.8)'
-              },
-              {
-                label: 'Traição-Traiação',
-                data: [{x: 2, y: 2, r: 15}],
-                backgroundColor: 'rgba(239, 68, 68, 0.8)'
-              },
-              {
-                label: 'Cooperação-Traição',
-                data: [{x: 0, y: 10, r: 15}, {x: 10, y: 0, r: 15}],
-                backgroundColor: `rgba(${parseInt(amber.slice(1,3), 16)}, ${parseInt(amber.slice(3,5), 16)}, ${parseInt(amber.slice(5,7), 16)}, 0.8)`
-              }
+              { label: 'Cooperação', data: [{x: 5, y: 5, r: 15}], backgroundColor: 'rgba(16, 185, 129, 0.8)' },
+              { label: 'Traição', data: [{x: 2, y: 2, r: 15}], backgroundColor: 'rgba(239, 68, 68, 0.8)' },
+              { label: 'Misto', data: [{x: 0, y: 10, r: 15}, {x: 10, y: 0, r: 15}], backgroundColor: 'rgba(251, 191, 36, 0.8)' }
             ]
           },
           options: {
-            ...commonOptions,
-            scales: {
-              x: {
-                min: -1,
-                max: 11
-              },
-              y: {
-                min: -1,
-                max: 11
+              ...commonOptions,
+              scales: {
+                  x: { min: -1, max: 11, grid: { color: grid } },
+                  y: { min: -1, max: 11, grid: { color: grid } }
               }
-            }
           }
         });
       }
 
-      // Gráfico 9: Sistema de Justiça
+      // Gráfico 9: Justiça
       if (document.getElementById('justiceChart')) {
         charts.justice = new Chart(document.getElementById('justiceChart'), {
           type: 'doughnut',
           data: {
             labels: ['Reabilitação', 'Prevenção', 'Retribuição', 'Restituição', 'Isolamento'],
             datasets: [{
-              label: 'Sistema de Justiça',
               data: [40, 25, 15, 10, 10],
-              backgroundColor: [
-                'rgba(16, 185, 129, 0.8)',
-                `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.8)`,
-                'rgba(239, 68, 68, 0.8)',
-                `rgba(${parseInt(accent.slice(1,3), 16)}, ${parseInt(accent.slice(3,5), 16)}, ${parseInt(accent.slice(5,7), 16)}, 0.8)`,
-                `rgba(${parseInt(amber.slice(1,3), 16)}, ${parseInt(amber.slice(3,5), 16)}, ${parseInt(amber.slice(5,7), 16)}, 0.8)`
-              ]
+              backgroundColor: ['#10b981', '#3b82f6', '#ef4444', '#8b5cf6', '#f59e0b']
             }]
           },
           options: commonOptions
         });
       }
 
-      // Gráfico 10: Integração Multidisciplinar
+      // Gráfico 10: Integração
       if (document.getElementById('integrationChart')) {
         charts.integration = new Chart(document.getElementById('integrationChart'), {
           type: 'pie',
           data: {
-            labels: ['Neurociência', 'Física Quântica', 'Ontologia', 'Filosofia', 'Ética', 'Biologia Evolutiva'],
+            labels: ['Neurociência', 'Física', 'Ontologia', 'Filosofia', 'Ética', 'Biologia'],
             datasets: [{
-              label: 'Contribuição por Disciplina',
               data: [25, 20, 15, 20, 15, 5],
-              backgroundColor: [
-                `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.8)`,
-                `rgba(${parseInt(accent.slice(1,3), 16)}, ${parseInt(accent.slice(3,5), 16)}, ${parseInt(accent.slice(5,7), 16)}, 0.8)`,
-                `rgba(${parseInt(amber.slice(1,3), 16)}, ${parseInt(amber.slice(3,5), 16)}, ${parseInt(amber.slice(5,7), 16)}, 0.8)`,
-                'rgba(16, 185, 129, 0.8)',
-                'rgba(139, 92, 246, 0.8)',
-                'rgba(14, 165, 233, 0.8)'
-              ]
+              backgroundColor: ['#3b82f6', '#8b5cf6', '#f59e0b', '#10b981', '#6366f1', '#0ea5e9']
             }]
           },
           options: commonOptions
         });
       }
 
-      // Gráfico 11: Linha do Tempo
+      // Gráfico 11: Timeline
       if (document.getElementById('timelineChart')) {
         charts.timeline = new Chart(document.getElementById('timelineChart'), {
           type: 'line',
           data: {
             labels: ['1980', '1990', '2000', '2010', '2020', '2030'],
-            datasets: [
-              {
-                label: 'Desenvolvimento Teórico',
-                data: [20, 35, 50, 70, 85, 95],
-                borderColor: primary,
-                backgroundColor: `rgba(${parseInt(primary.slice(1,3), 16)}, ${parseInt(primary.slice(3,5), 16)}, ${parseInt(primary.slice(5,7), 16)}, 0.1)`,
-                borderWidth: 3,
-                tension: 0.4,
-                fill: true
-              }
-            ]
+            datasets: [{
+              label: 'Desenvolvimento Teórico',
+              data: [20, 35, 50, 70, 85, 95],
+              borderColor: primary,
+              backgroundColor: 'rgba(96, 165, 250, 0.1)',
+              fill: true
+            }]
           },
           options: commonOptions
         });
       }
 
-      // Inicialização de ícones
-      lucide.createIcons();
-      
-      // Observador para mudanças no tema
-      new MutationObserver(updateCharts).observe(document.body, { 
-        attributes: true, 
-        attributeFilter: ['class'] 
-      });
+      // Theme Observer
+      new MutationObserver(updateCharts).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      new MutationObserver(updateCharts).observe(document.body, { attributes: true, attributeFilter: ['class'] });
     });
 
-    // Barra de progresso
+    // Scroll Progress
     window.addEventListener('scroll', () => {
       const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
